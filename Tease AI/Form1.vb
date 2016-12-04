@@ -29,7 +29,7 @@ Public Class Form1
 	' Github Patch  Public FormLoading As Boolean
 	Friend FormLoading As Boolean = True
 	Dim FormFinishedLoading As Boolean = False
-
+	Dim test As Boolean
 
 	'TODO: Use a custom class to pass data between ScriptParsing methods.
 	<Obsolete("QND-Implementation of ContactData.GetTaggedImage. ")>
