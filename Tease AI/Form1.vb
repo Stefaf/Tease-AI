@@ -4273,7 +4273,6 @@ NonModuleEnd:
 					End If
 
 					ssh.CallReturns.RemoveFile(ssh)
-
 					'github patch begin
 					'If ReturnSubState = "Stroking" Then
 					'If SubStroking = False Then
@@ -4287,7 +4286,6 @@ NonModuleEnd:
 					'If ReturnSubState = "Edging" Then
 
 					'github patch end
-
 					If ssh.ReturnSubState = "Stroking" Then
 							If My.Settings.Chastity = True Then
 								'DomTask = "Now as I was saying @StartTaunts"
