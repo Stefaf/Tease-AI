@@ -634,7 +634,7 @@ Public Class SessionState
 
 	<NonSerialized> <OptionalField> Friend Files As New FileClass(Me)
 	<NonSerialized> <OptionalField> Friend Folders As New FoldersClass(Me)
-	<NonSerialized> <OptionalField> Friend CallReturns As New StackedCallReturn()
+	<OptionalField> Friend CallReturns As New StackedCallReturn()
 
 	<NonSerialized> Dim ActivationForm As Form1
 
