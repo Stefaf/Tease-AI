@@ -1,5 +1,4 @@
 ﻿Partial Class SessionState
-	'test lineklkl
 	Friend Class StackedCallReturn
 		Dim numReturns As Integer = -1
 		Dim ReturnStrokeTauntVal As List(Of Integer) = New List(Of Integer)
