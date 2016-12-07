@@ -413,11 +413,7 @@ Public Class SessionState
 	Public Property Contact2Stroke As Boolean
 	Public Property Contact3Stroke As Boolean
 
-	'these two values are never used
-	'Public Property ReturnFileText As String
-	'Public Property ReturnStrokeTauntVal As String
 	Public Property ReturnSubState As String
-	Public Property ReturnFlag As Boolean
 
 	Public Property SessionEdges As Integer
 

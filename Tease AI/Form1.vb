@@ -4017,11 +4017,6 @@ AcceptAnswer:
 
 	Public Sub RunFileText()
 
-
-		'Debug.Print("ReturnFlag = " & ReturnFlag)
-
-		'If ReturnFlag = True Then GoTo ReturnCalled
-
 		Debug.Print("SaidHello = " & ssh.SaidHello)
 		If ssh.SaidHello = False Then Return
 
@@ -4088,7 +4083,7 @@ ReturnCalled:
 
 
 		Try
-			If ssh.RunningScript = False And ssh.AvoidTheEdgeGame = False And ssh.ReturnFlag = False Then
+			If ssh.RunningScript = False And ssh.AvoidTheEdgeGame = False And ssh.CallReturns.Count() = 0 Then
 				Debug.Print("End Check StrokeTauntVal = " & ssh.StrokeTauntVal)
 
 
@@ -4267,10 +4262,8 @@ NonModuleEnd:
 					BTNHypnoGenStart.Text = "Guide Me!"
 				End If
 
-				If ssh.ReturnFlag = True Then
-					If ssh.CallReturns.Count() = 0 Then
-						ssh.ReturnFlag = False
-					End If
+
+				If ssh.CallReturns.Count() > 0 Then
 
 					ssh.CallReturns.Pop().resumeState()
 					'github patch begin
@@ -5603,7 +5596,7 @@ DommeSlideshowFallback:
 
 
 
-					If ssh.ReturnFlag Then
+					If ssh.CallReturns.Count() > 0 Then
 						ssh.ShowModule = True
 						ScriptTimer.Start()
 					ElseIf ssh.TeaseTick < 1 And ssh.Playlist = False Then
@@ -6239,7 +6232,7 @@ DommeSlideshowFallback:
 
 					'FrmSettings.LBLOrgasmCountdown.Text = LastScriptCountdown
 
-					If ssh.ReturnFlag Then
+					If ssh.CallReturns.Count() > 0 Then
 						ssh.ShowModule = True
 						ScriptTimer.Start()
 					ElseIf ssh.TeaseTick < 1 And ssh.Playlist = False Then
@@ -11102,10 +11095,8 @@ OrgasmDecided:
 
 				'if we use an interrupt we have to clear all the values stored in the @CallReturn array because @Interrupts stop everything
 				'and then moves to a link (otherwise we'd have the program going back to these @CallReturn the next time a new @CallReturn is called)
-				If (ssh.ReturnFlag = True) Then
-					ssh.ReturnFlag = False
-					ssh.CallReturns.Clear()
-				End If
+				ssh.CallReturns.Clear()
+
 
 				ssh.FileText = InterruptClean
 				ssh.LockImage = False
@@ -12233,15 +12224,11 @@ VTSkip:
 
 		If StringClean.Contains("@CallReturn(") Then
 
-
-			ssh.ReturnFlag = True
 			GetSubState()
 			ssh.CallReturns.Push(New SessionState.StackedCallReturn())
 
 
-
 			StopEverything()
-			'ssh.ReturnFlag = True
 
 
 			Dim CheckFlag As String = GetParentheses(StringClean, "@CallReturn(")
