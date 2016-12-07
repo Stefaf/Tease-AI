@@ -413,8 +413,9 @@ Public Class SessionState
 	Public Property Contact2Stroke As Boolean
 	Public Property Contact3Stroke As Boolean
 
-	Public Property ReturnFileText As String
-	Public Property ReturnStrokeTauntVal As String
+	'these two values are never used
+	'Public Property ReturnFileText As String
+	'Public Property ReturnStrokeTauntVal As String
 	Public Property ReturnSubState As String
 	Public Property ReturnFlag As Boolean
 
@@ -634,7 +635,7 @@ Public Class SessionState
 
 	<NonSerialized> <OptionalField> Friend Files As New FileClass(Me)
 	<NonSerialized> <OptionalField> Friend Folders As New FoldersClass(Me)
-	<OptionalField> Friend CallReturns As New StackedCallReturn()
+	<OptionalField> Friend CallReturns As New Stack()
 
 	<NonSerialized> Dim ActivationForm As Form1
 
@@ -719,8 +720,7 @@ Public Class SessionState
 		' Marked as <NonSerialized> <OptionalField> have to be initialized on every deserialization.
 		If Files Is Nothing Then Files = New FileClass(Me)
 		If Folders Is Nothing Then Folders = New FoldersClass(Me)
-		If CallReturns Is Nothing Then CallReturns = New StackedCallReturn()
-
+		If CallReturns Is Nothing Then CallReturns = New Stack()
 	End Sub
 
 #End Region

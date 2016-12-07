@@ -4268,11 +4268,11 @@ NonModuleEnd:
 				End If
 
 				If ssh.ReturnFlag = True Then
-					If ssh.CallReturns.getNumReturns() = 0 Then
+					If ssh.CallReturns.Count() = 0 Then
 						ssh.ReturnFlag = False
 					End If
 
-					ssh.CallReturns.RemoveFile(ssh)
+					ssh.CallReturns.Pop().resumeState()
 					'github patch begin
 					'If ReturnSubState = "Stroking" Then
 					'If SubStroking = False Then
@@ -4287,67 +4287,66 @@ NonModuleEnd:
 
 					'github patch end
 					If ssh.ReturnSubState = "Stroking" Then
-							If My.Settings.Chastity = True Then
-								'DomTask = "Now as I was saying @StartTaunts"
-								ssh.DomTask = "#Return_Chastity"
+						If My.Settings.Chastity = True Then
+							'DomTask = "Now as I was saying @StartTaunts"
+							ssh.DomTask = "#Return_Chastity"
+							TypingDelayGeneric()
+						Else
+							If ssh.SubStroking = False Then
+								'DomTask = "Get back to stroking @StartStroking"
+								ssh.DomTask = "#Return_Stroking"
 								TypingDelayGeneric()
 							Else
-								If ssh.SubStroking = False Then
-									'DomTask = "Get back to stroking @StartStroking"
-									ssh.DomTask = "#Return_Stroking"
-									TypingDelayGeneric()
-								Else
-									StrokeTimer.Start()
-									StrokeTauntTimer.Start()
-								End If
+								StrokeTimer.Start()
+								StrokeTauntTimer.Start()
 							End If
-						End If
-						If ssh.ReturnSubState = "Edging" Then
-
-							If ssh.SubEdging = False Then
-								'DomTask = "Start getting yourself to the edge again @Edge"
-								ssh.DomTask = "#Return_Edging"
-								'SubStroking = True
-								TypingDelayGeneric()
-							Else
-								EdgeTauntTimer.Start()
-								EdgeCountTimer.Start()
-							End If
-						End If
-						If ssh.ReturnSubState = "Holding The Edge" Then
-							If ssh.SubEdging = False Then
-								'DomTask = "Start getting yourself to the edge again @EdgeHold"
-								ssh.DomTask = "#Return_Holding"
-								'SubStroking = True
-								TypingDelayGeneric()
-							Else
-								HoldEdgeTimer.Start()
-								HoldEdgeTauntTimer.Start()
-							End If
-						End If
-						If ssh.ReturnSubState = "CBTBalls" Then
-							'DomTask = "Now let's get back to busting those #Balls @CBTBalls"
-							ssh.DomTask = "#Return_CBTBalls"
-							ssh.CBTBallsFirst = False
-							TypingDelayGeneric()
-						End If
-						If ssh.ReturnSubState = "CBTCock" Then
-							'DomTask = "Now let's get back to abusing that #Cock @CBTCock"
-							ssh.DomTask = "#Return_CBTCock"
-							ssh.CBTCockFirst = False
-							TypingDelayGeneric()
-						End If
-						If ssh.ReturnSubState = "Rest" Then
-							ssh.DomTypeCheck = True
-							ssh.ScriptTick = 5
-							ScriptTimer.Start()
-							'DomTask = "Now as I was saying"
-							ssh.DomTask = "#Return_Rest"
-							TypingDelayGeneric()
-							Return
 						End If
 					End If
-					ScriptTimer.Stop()
+					If ssh.ReturnSubState = "Edging" Then
+						If ssh.SubEdging = False Then
+							'DomTask = "Start getting yourself to the edge again @Edge"
+							ssh.DomTask = "#Return_Edging"
+							'SubStroking = True
+							TypingDelayGeneric()
+						Else
+							EdgeTauntTimer.Start()
+							EdgeCountTimer.Start()
+						End If
+					End If
+					If ssh.ReturnSubState = "Holding The Edge" Then
+						If ssh.SubEdging = False Then
+							'DomTask = "Start getting yourself to the edge again @EdgeHold"
+							ssh.DomTask = "#Return_Holding"
+							'SubStroking = True
+							TypingDelayGeneric()
+						Else
+							HoldEdgeTimer.Start()
+							HoldEdgeTauntTimer.Start()
+						End If
+					End If
+					If ssh.ReturnSubState = "CBTBalls" Then
+						'DomTask = "Now let's get back to busting those #Balls @CBTBalls"
+						ssh.DomTask = "#Return_CBTBalls"
+						ssh.CBTBallsFirst = False
+						TypingDelayGeneric()
+					End If
+					If ssh.ReturnSubState = "CBTCock" Then
+						'DomTask = "Now let's get back to abusing that #Cock @CBTCock"
+						ssh.DomTask = "#Return_CBTCock"
+						ssh.CBTCockFirst = False
+						TypingDelayGeneric()
+					End If
+					If ssh.ReturnSubState = "Rest" Then
+						ssh.DomTypeCheck = True
+						ssh.ScriptTick = 5
+						ScriptTimer.Start()
+						'DomTask = "Now as I was saying"
+						ssh.DomTask = "#Return_Rest"
+						TypingDelayGeneric()
+						Return
+					End If
+				End If
+				ScriptTimer.Stop()
 				Return
 			End If
 
@@ -11105,7 +11104,7 @@ OrgasmDecided:
 				'and then moves to a link (otherwise we'd have the program going back to these @CallReturn the next time a new @CallReturn is called)
 				If (ssh.ReturnFlag = True) Then
 					ssh.ReturnFlag = False
-					ssh.CallReturns.resetList()
+					ssh.CallReturns.Clear()
 				End If
 
 				ssh.FileText = InterruptClean
@@ -12237,37 +12236,12 @@ VTSkip:
 
 			ssh.ReturnFlag = True
 			GetSubState()
-			ssh.CallReturns.AddFile(ssh)
+			ssh.CallReturns.Push(New SessionState.StackedCallReturn())
 
-			StrokeTimer.Stop()
-			StrokeTauntTimer.Stop()
-			CensorshipTimer.Stop()
-			RLGLTimer.Stop()
-			TnASlides.Stop()
-			AvoidTheEdge.Stop()
-			EdgeTauntTimer.Stop()
-			HoldEdgeTimer.Stop()
-			HoldEdgeTauntTimer.Stop()
-			AvoidTheEdgeTaunts.Stop()
-			RLGLTauntTimer.Stop()
-			VideoTauntTimer.Stop()
-			EdgeCountTimer.Stop()
 
-			ssh.CBTBallsActive = False
-			ssh.CBTBallsFlag = False
-			ssh.CBTCockActive = False
-			ssh.CBTCockFlag = False
-			ssh.CBTBothActive = False
-			ssh.CBTBothFlag = False
-			ssh.CustomTaskActive = False
 
-			If Not ssh.SubGaveUp Then
-				ssh.SubEdging = False
-				ssh.SubHoldingEdge = False
-			End If
-
-			'StopEverything()
-			ssh.ReturnFlag = True
+			StopEverything()
+			'ssh.ReturnFlag = True
 
 
 			Dim CheckFlag As String = GetParentheses(StringClean, "@CallReturn(")
