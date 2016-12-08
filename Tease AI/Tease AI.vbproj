@@ -242,6 +242,7 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <Compile Include="Modules\Extension.Class.String.vb" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

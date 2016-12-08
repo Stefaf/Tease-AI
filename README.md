@@ -1,8 +1,6 @@
 # Tease-AI
 Tease AI is adult-oriented software that aims to create an interactive tease and denial experience by emulating an online chat session with a domme. 
 
-Daragorn TestLine
-
 # Todo:
 
 Stefaf: Integration of Class myDirectory: Status ongoing.
@@ -13,7 +11,7 @@ Stefaf: Integration of Class myDirectory: Status ongoing.
 * Added Features:
 	* Added new sorting method to sort file lists like the Windows file Explorer does.
 	* PoundClean reworked to support system keywords as parameters inside vocabulary files. In order to prevent infinite loops, the maximum allowed depth is limited to 5 times. Tip: take a look at the logfile to see how it's working.
-	* All Contacts and Domme are able to use @DommeTag(). 
+	* All Contacts and Domme are able to use @DommeTag(). Usage: @Contact2 Your text to display @DommeTag(Face, NotFeet)
  
 
 * Removed Features:
