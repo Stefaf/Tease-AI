@@ -12225,39 +12225,65 @@ VTSkip:
 		If StringClean.Contains("@CallReturn(") Then
 
 			GetSubState()
-			ssh.CallReturns.Push(New SessionState.StackedCallReturn())
+			ssh.CallReturns.Push(New SessionState.StackedCallReturn(ssh))
 
+			StrokeTimer.Stop()
+			StrokeTauntTimer.Stop()
+			CensorshipTimer.Stop()
+			RLGLTimer.Stop()
+			TnASlides.Stop()
+			AvoidTheEdge.Stop()
+			EdgeTauntTimer.Stop()
+			HoldEdgeTimer.Stop()
+			HoldEdgeTauntTimer.Stop()
+			AvoidTheEdgeTaunts.Stop()
+			RLGLTauntTimer.Stop()
+			VideoTauntTimer.Stop()
+			EdgeCountTimer.Stop()
 
-			StopEverything()
+			ssh.CBTBallsActive = False
+			ssh.CBTBallsFlag = False
+			ssh.CBTCockActive = False
+			ssh.CBTCockFlag = False
+			ssh.CBTBothActive = False
+			ssh.CBTBothFlag = False
+			ssh.CustomTaskActive = False
+
+			If Not ssh.SubGaveUp Then
+				ssh.SubEdging = False
+				ssh.SubHoldingEdge = False
+			End If
+
+			'StopEverything()
 
 
 			Dim CheckFlag As String = GetParentheses(StringClean, "@CallReturn(")
-			Dim CallReplace As String = CheckFlag
+				Dim CallReplace As String = CheckFlag
 
-			If CheckFlag.Contains(",") Then
+				If CheckFlag.Contains(",") Then
 
-				CheckFlag = FixCommas(CheckFlag)
+					CheckFlag = FixCommas(CheckFlag)
 
-				Dim CallSplit As String() = CheckFlag.Split(",")
-				ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CallSplit(0)
-				ssh.FileGoto = CallSplit(1)
-				ssh.SkipGotoLine = True
-				GetGoto()
+					Dim CallSplit As String() = CheckFlag.Split(",")
+					ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CallSplit(0)
+					ssh.FileGoto = CallSplit(1)
+					ssh.SkipGotoLine = True
+					GetGoto()
 
-			Else
+				Else
 
-				ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CheckFlag
-				ssh.StrokeTauntVal = -1
+					ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CheckFlag
+					ssh.StrokeTauntVal = -1
+
+				End If
+				ssh.ScriptTick = 2
+				ScriptTimer.Start()
+
+				StringClean = StringClean.Replace("@CallReturn(" & CallReplace & ")", "")
 
 			End If
-			ssh.ScriptTick = 2
-			ScriptTimer.Start()
 
-			StringClean = StringClean.Replace("@CallReturn(" & CallReplace & ")", "")
-
-		End If
-
-		If StringClean.Contains("@Call(") Then
+			If StringClean.Contains("@Call(") Then
 
 			Dim CheckFlag As String = GetParentheses(StringClean, "@Call(")
 			Dim CallReplace As String = CheckFlag

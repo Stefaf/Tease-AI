@@ -5,8 +5,8 @@
 		Public Property ReturnState As String
 		Dim ssh As SessionState
 
-		Sub New()
-			ssh = My.Application.Session
+		Sub New(session As SessionState)
+			ssh = session
 			ReturnStrokeTauntVal = ssh.StrokeTauntVal
 			ReturnFileText = ssh.FileText
 			ReturnState = ssh.ReturnSubState

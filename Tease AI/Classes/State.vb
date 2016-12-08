@@ -413,7 +413,10 @@ Public Class SessionState
 	Public Property Contact2Stroke As Boolean
 	Public Property Contact3Stroke As Boolean
 
+	Public Property ReturnFileText As String
+	Public Property ReturnStrokeTauntVal As String
 	Public Property ReturnSubState As String
+	Public Property returnFlag As Boolean
 
 	Public Property SessionEdges As Integer
 
@@ -717,6 +720,13 @@ Public Class SessionState
 		If Files Is Nothing Then Files = New FileClass(Me)
 		If Folders Is Nothing Then Folders = New FoldersClass(Me)
 		If CallReturns Is Nothing Then CallReturns = New Stack()
+		If returnFlag Then
+			Dim oldReturn = New StackedCallReturn(Me)
+			oldReturn.ReturnFileText = Me.ReturnFileText
+			oldReturn.ReturnState = Me.ReturnSubState
+			oldReturn.ReturnStrokeTauntVal = CInt(Me.ReturnStrokeTauntVal)
+			CallReturns.Push(oldReturn)
+		End If
 	End Sub
 
 #End Region
