@@ -39,7 +39,7 @@ Stefaf: Integration of Class myDirectory: Status ongoing.
 	* causes a script freeze at EOF, when taunts are interrupted. (Occured in Debug->Run Script)
 	* seem to break if a miniscript (and maybe others) is called during the taunt.
 	* Modes are not restored on returning.
-* @CallReturn doesn't restore any on the modes. (@YesMode, @NoMode etc.)
+* @CallReturn doesn't restore any of the modes. (@YesMode, @NoMode etc.)
 
 	
 # Changelog - Patch 54.5.0	
