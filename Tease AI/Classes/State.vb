@@ -413,10 +413,29 @@ Public Class SessionState
 	Public Property Contact2Stroke As Boolean
 	Public Property Contact3Stroke As Boolean
 
+#Region "@CallReturn("
+
+	''' <summary>Gets or sets current stack for @CallReturn( command.</summary>
+	<Category("@CallReturn(")> <Browsable(False)>
+	<OptionalField> Friend CallReturns As New Stack()
+
+	<Category("@CallReturn(")> <Browsable(False)>
+	<Obsolete("Obsololete as of 0.54.6.0. Use CallReturns-Stack instead.")>
 	Public Property ReturnFileText As String
+
+	<Category("@CallReturn(")> <Browsable(False)>
+	<Obsolete("Obsololete as of 0.54.6.0. Use CallReturns-Stack instead.")>
 	Public Property ReturnStrokeTauntVal As String
+
+	<Category("@CallReturn(")>
+	<Description("Updated after returning to calling script.")>
 	Public Property ReturnSubState As String
+
+	<Category("@CallReturn(")> <Browsable(False)>
+	<Obsolete("Obsololete as of 0.54.6.0. Use CallReturns-Stack instead.")>
 	Public Property ReturnFlag As Boolean
+
+#End Region
 
 	Public Property SessionEdges As Integer
 
@@ -715,10 +734,26 @@ Public Class SessionState
 	''' <param name="sc"></param>
 	<OnDeserialized>
 	Sub onDeserialized_FixFields(sc As StreamingContext)
+		' Suppress obsolete warnings.
+#Disable Warning BC40000
+
 		' Marked as <NonSerialized> <OptionalField> have to be initialized on every deserialization.
 		If Files Is Nothing Then Files = New FileClass(Me)
 		If Folders Is Nothing Then Folders = New FoldersClass(Me)
 
+		' ########## Load @CallReturn( from old structure. ############
+		' DataStructure has changed in c1626a2e5ea4f85a642ec95cdcc2eb7160c1f148
+		If CallReturns Is Nothing Then CallReturns = New Stack()
+		If ReturnFlag Then
+			Dim oldReturn = New StackedCallReturn(Me)
+			oldReturn.FilePath = Me.ReturnFileText
+			oldReturn.ReturnState = Me.ReturnSubState
+			oldReturn.Line = CInt(Me.ReturnStrokeTauntVal)
+			CallReturns.Push(oldReturn)
+		End If
+		
+		' Unsuppress obsolete warnings 
+#Enable Warning BC40000
 	End Sub
 
 #End Region
