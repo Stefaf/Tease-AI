@@ -3590,7 +3590,7 @@ NullSkip:
 				Return
 			End If
 
-		Loop Until InStr(UCase(lines(line)), UCase("@DifferentAnswer")) <> 0 Or InStr(UCase(lines(line)), UCase("@AcceptAnswer")) <> 0
+		Loop Until InStr(UCase(lines(line)), UCase("@AcceptAnswer")) <> 0 Or InStr(UCase(lines(line)), UCase("@DifferentAnswer")) <> 0
 
 		GoTo NothingFound
 
@@ -3633,7 +3633,7 @@ LoopAnswer:
 		If InStr(UCase(lines(line)), UCase("AcceptAnswer")) <> 0 Then
 
 AcceptAnswer:
-			ssh.DomChat = lines(TempLineVal)
+			ssh.DomChat = lines(line)
 			' TimedAnswerTimer.Stop()
 
 			ssh.DomChat = ssh.DomChat.Replace("@AcceptAnswer ", "")
@@ -8163,6 +8163,7 @@ StatusUpdateEnd:
 
 	Public Function PoundClean(ByVal StringClean As String) As String
 #If TRACE Then
+		Dim wrongVocabs As List(Of String) = New List(Of String)
 		Dim TS As New TraceSwitch("PoundClean", "")
 
 		If TS.TraceVerbose Then
@@ -8210,6 +8211,7 @@ StatusUpdateEnd:
 			' Find all remaining #Keywords.
 			Dim re As New Regex(Pattern, RegexOptions.IgnoreCase)
 			Dim mc As MatchCollection = re.Matches(StringClean)
+
 			Dim controlCustom As String = ""
 			If StringClean.Contains("@CustomMode(") Then
 				controlCustom = GetParentheses(StringClean, "@CustomMode(")
@@ -8217,7 +8219,15 @@ StatusUpdateEnd:
 			' Try to get content from file but avoid changing twice the same vocab if it is present in more than one istance in the regex
 			Dim lastKey As String = "emptyString"
 			For Each keyword As Match In mc
-				If Not lastKey.Equals(keyword.ToString) Then
+				'	Dim doNotContinue As Boolean = False
+				'	For i As Integer = 0 To wrongVocabs.Count - 1
+				'	If wrongVocabs(i) = keyword.Value Then
+				'			doNotContinue = True
+				'	Exit For
+				'	End If
+				'Next
+
+				If Not lastKey.Equals(keyword.Value) Then
 #If TRACE Then
 					If TS.TraceVerbose Then Trace.WriteLine(String.Format("Applying vocabulary: ""{0}""", keyword.Value))
 #End If
@@ -8239,9 +8249,12 @@ StatusUpdateEnd:
 						Else
 
 							'StringClean = StringClean.Replace(keyword.Value, "<font color=""DarkOrange"">" & keyword.Value & "</font>")
-
+							wrongVocabs.Add(keyword.Value)
+							Dim wrong As String = keyword.Value
+							wrong = wrong.Remove(0, 1)
+							wrong = "Vocab Error:" & wrong
 							If My.Settings.CBOutputErrors = True Then
-								StringClean = StringClean.Replace(keyword.Value, "<font color=""DarkOrange"">" & keyword.Value & "</font>")
+								StringClean = StringClean.Replace(keyword.Value, "<font color=""DarkOrange"">" & wrong & "</font>")
 							Else
 								StringClean = StringClean.Replace(keyword.Value, "")
 							End If
@@ -8258,14 +8271,18 @@ StatusUpdateEnd:
 						'End Try
 
 					Else
-						StringClean = StringClean.Replace(keyword.Value, "<font color=""red"">" & keyword.Value & "</font>")
+						wrongVocabs.Add(keyword.Value)
+						Dim wrong As String = keyword.Value
+						wrong = wrong.Remove(0, 1)
+						wrong = "Missing Vocab:" & wrong
+						StringClean = StringClean.Replace(keyword.Value, "<font color=""red"">" & wrong & "</font>")
 
 						Dim lazytext As String = "Unable to locate vocabulary file: """ & keyword.Value & """"
 						Log.WriteError(lazytext, New Exception(lazytext), "PoundClean(String)")
 
 					End If
 				End If
-				lastKey = keyword.ToString
+				lastKey = keyword.Value
 			Next
 
 #If TRACE Then
@@ -13556,28 +13573,34 @@ VTSkip:
 		'		Grouped-Lines-Check-END 
 		'▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
-		For i As Integer = 0 To ListClean.Count - 1 Step ListIncrement
-
-			FilterPass = True
-
-			For x As Integer = 0 To ListIncrement - 1
+		For i As Integer = ListClean.Count - ListIncrement To 0 Step -ListIncrement
+			For x As Integer = ListIncrement - 1 To 0 Step -1
 				If GetFilter(ListClean(i + x)) = False Then
-					FilterPass = False
+					For n As Integer = ListIncrement - 1 To 0 Step -1
+						ListClean.RemoveAt(i + n)
+					Next
 					Exit For
 				End If
 			Next
-
-			If FilterPass = False Then
-				For x As Integer = 0 To ListIncrement - 1
-					ListClean(i + x) = ListClean(i + x) & "###-INVALID-###"
-				Next
-			End If
-
 		Next
+		'For x As Integer = 0 To ListIncrement - 1
+		'If GetFilter(ListClean(i + x)) = False Then
+		'FilterPass = False
+		'Exit For
+		'End If
+		'Next
 
-		For i As Integer = ListClean.Count - 1 To 0 Step -1
-			If ListClean(i).Contains("###-INVALID-###") Then ListClean.RemoveAt(i)
-		Next
+		'If FilterPass = False Then
+		'For x As Integer = 0 To ListIncrement - 1
+		'ListClean(i + x) = ListClean(i + x) & "###-INVALID-###"
+		'Next
+		'	End If
+
+		'Next
+
+		'		For i As Integer = ListClean.Count - 1 To 0 Step -1
+		'		If ListClean(i).Contains("###-INVALID-###") Then ListClean.RemoveAt(i)
+		'		Next
 
 		'Dim FilteredList As New List(Of String)
 
