@@ -3590,7 +3590,7 @@ NullSkip:
 				Return
 			End If
 
-		Loop Until InStr(UCase(lines(line)), UCase("@AcceptAnswer")) <> 0 Or InStr(UCase(lines(line)), UCase("@DifferentAnswer")) <> 0
+		Loop Until InStr(UCase(lines(line)), UCase("@DifferentAnswer")) <> 0 Or InStr(UCase(lines(line)), UCase("@AcceptAnswer")) <> 0
 
 		GoTo NothingFound
 
@@ -8219,74 +8219,74 @@ StatusUpdateEnd:
 			' Try to get content from file but avoid changing twice the same vocab if it is present in more than one istance in the regex
 			Dim lastKey As String = "emptyString"
 			For Each keyword As Match In mc
-				'	Dim doNotContinue As Boolean = False
-				'	For i As Integer = 0 To wrongVocabs.Count - 1
-				'	If wrongVocabs(i) = keyword.Value Then
-				'			doNotContinue = True
-				'	Exit For
-				'	End If
-				'Next
+				Dim doNotContinue As Boolean = False
+				For i As Integer = 0 To wrongVocabs.Count - 1
+					If wrongVocabs(i) = keyword.Value Then
+						doNotContinue = True
+						Exit For
+					End If
+				Next
 
 				If Not lastKey.Equals(keyword.Value) Then
 #If TRACE Then
-					If TS.TraceVerbose Then Trace.WriteLine(String.Format("Applying vocabulary: ""{0}""", keyword.Value))
+						If TS.TraceVerbose Then Trace.WriteLine(String.Format("Applying vocabulary: ""{0}""", keyword.Value))
 #End If
 
-					Dim filepath As String = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\" & keyword.Value & ".txt"
+						Dim filepath As String = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\" & keyword.Value & ".txt"
 
-					If Directory.Exists(Path.GetDirectoryName(filepath)) AndAlso File.Exists(filepath) Then
-						Dim lines As List(Of String) = Txt2List(filepath)
+						If Directory.Exists(Path.GetDirectoryName(filepath)) AndAlso File.Exists(filepath) Then
+							Dim lines As List(Of String) = Txt2List(filepath)
 
 
-						lines = FilterList(lines)
-						If controlCustom.Contains(keyword.ToString) Then customVocabLines = lines
-						If lines.Count > 0 Then
+							lines = FilterList(lines)
+							If controlCustom.Contains(keyword.ToString) Then customVocabLines = lines
+							If lines.Count > 0 Then
 
-							Dim PoundVal As Integer = ssh.randomizer.Next(0, lines.Count)
+								Dim PoundVal As Integer = ssh.randomizer.Next(0, lines.Count)
 
-							StringClean = StringClean.Replace(keyword.Value, lines(PoundVal))
+								StringClean = StringClean.Replace(keyword.Value, lines(PoundVal))
+
+							Else
+
+								'StringClean = StringClean.Replace(keyword.Value, "<font color=""DarkOrange"">" & keyword.Value & "</font>")
+								wrongVocabs.Add(keyword.Value)
+								Dim wrong As String = keyword.Value
+								wrong = wrong.Remove(0, 1)
+								wrong = "Vocab Error:" & wrong
+								If My.Settings.CBOutputErrors = True Then
+									StringClean = StringClean.Replace(keyword.Value, "<font color=""DarkOrange"">" & wrong & "</font>")
+								Else
+									StringClean = StringClean.Replace(keyword.Value, "")
+								End If
+							End If
+
+							'Try
+							'lines = FilterList(lines)
+							'Dim PoundVal As Integer = ssh.randomizer.Next(0, lines.Count)
+							'StringClean = StringClean.Replace(keyword.Value, lines(PoundVal))
+							'Catch ex As Exception
+							'Log.WriteError("Error Processing vocabulary file:  " & filepath, ex,
+							' "Tease AI did not return a valid line while parsing vocabulary file.")
+							'StringClean = "ERROR: Tease AI did not return a valid line while parsing vocabulary file: " & keyword.Value
+							'End Try
 
 						Else
-
-							'StringClean = StringClean.Replace(keyword.Value, "<font color=""DarkOrange"">" & keyword.Value & "</font>")
 							wrongVocabs.Add(keyword.Value)
 							Dim wrong As String = keyword.Value
 							wrong = wrong.Remove(0, 1)
-							wrong = "Vocab Error:" & wrong
-							If My.Settings.CBOutputErrors = True Then
-								StringClean = StringClean.Replace(keyword.Value, "<font color=""DarkOrange"">" & wrong & "</font>")
-							Else
-								StringClean = StringClean.Replace(keyword.Value, "")
-							End If
+							wrong = "Missing Vocab:" & wrong
+							StringClean = StringClean.Replace(keyword.Value, "<font color=""red"">" & wrong & "</font>")
+
+							Dim lazytext As String = "Unable to locate vocabulary file: """ & keyword.Value & """"
+							Log.WriteError(lazytext, New Exception(lazytext), "PoundClean(String)")
+
 						End If
-
-						'Try
-						'lines = FilterList(lines)
-						'Dim PoundVal As Integer = ssh.randomizer.Next(0, lines.Count)
-						'StringClean = StringClean.Replace(keyword.Value, lines(PoundVal))
-						'Catch ex As Exception
-						'Log.WriteError("Error Processing vocabulary file:  " & filepath, ex,
-						' "Tease AI did not return a valid line while parsing vocabulary file.")
-						'StringClean = "ERROR: Tease AI did not return a valid line while parsing vocabulary file: " & keyword.Value
-						'End Try
-
-					Else
-						wrongVocabs.Add(keyword.Value)
-						Dim wrong As String = keyword.Value
-						wrong = wrong.Remove(0, 1)
-						wrong = "Missing Vocab:" & wrong
-						StringClean = StringClean.Replace(keyword.Value, "<font color=""red"">" & wrong & "</font>")
-
-						Dim lazytext As String = "Unable to locate vocabulary file: """ & keyword.Value & """"
-						Log.WriteError(lazytext, New Exception(lazytext), "PoundClean(String)")
-
 					End If
-				End If
-				lastKey = keyword.Value
-			Next
+					lastKey = keyword.Value
+				Next
 
 #If TRACE Then
-			Trace.Unindent()
+				Trace.Unindent()
 #End If
 		Loop
 
