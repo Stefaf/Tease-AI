@@ -7612,7 +7612,11 @@ StatusUpdateEnd:
 
 		StringClean = StringClean.Replace("#SubName", subName.Text)
 
-		StringClean = StringClean.Replace("#DomName", ssh.tempDomName)
+		If Not ssh.SlideshowMain Is Nothing Then
+			StringClean = StringClean.Replace("#DomName", ssh.SlideshowMain.TypeName)
+		Else
+			StringClean = StringClean.Replace("#DomName", ssh.tempDomName)
+		End If
 
 		StringClean = StringClean.Replace("#MainDom", My.Settings.DomName)
 
