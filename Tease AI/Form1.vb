@@ -24,7 +24,7 @@ Public Class Form1
 	Friend Shared ReadOnly pathImageErrorNoLocalImages As String = Application.StartupPath & "\Images\System\NoLocalImagesFound.jpg"
 
 	Friend Shared ReadOnly SavedSessionDefaultPath As String = Application.StartupPath & "\System\SavedState.save"
-#End Region	' File Constants.
+#End Region   ' File Constants.
 
 	' Github Patch  Public FormLoading As Boolean
 	Friend FormLoading As Boolean = True
@@ -109,7 +109,7 @@ Public Class Form1
 			End SyncLock
 		End Get
 	End Property
-#End Region	' StrokePace
+#End Region ' StrokePace
 
 	Public synth As New SpeechSynthesizer
 	Public synth2 As New SpeechSynthesizer
@@ -286,7 +286,7 @@ retryStart:
 			FrmSplash.Show()
 
 			FrmSplash.PBSplash.Value += 1
-			FrmSplash.LBLSplash.Text = "Checking orgasm limit..."	  ' 1
+			FrmSplash.LBLSplash.Text = "Checking orgasm limit..."     ' 1
 			FrmSplash.Refresh()
 
 			If My.Settings.OrgasmLockDate = Nothing Then My.Settings.OrgasmLockDate = FormatDateTime(Now, DateFormat.ShortDate)
@@ -3645,7 +3645,8 @@ LoopAnswer:
 		If InStr(UCase(lines(TempLineVal)), UCase("AcceptAnswer")) <> 0 Then
 
 AcceptAnswer:
-			ssh.DomChat = lines(TempLineVal)
+			ssh.DomChat = lines(line)
+			'ssh.DomChat = lines(TempLineVal)
 			' TimedAnswerTimer.Stop()
 
 			'we clear the answer list 
@@ -6312,7 +6313,7 @@ Retry:
 		mwe.Handled = True
 	End Sub
 
-#End Region	' Images
+#End Region  ' Images
 
 #Region " VLC "
 
@@ -6629,22 +6630,22 @@ Retry:
 		'======================================================================================
 		'									Genre Videos
 		'======================================================================================
-		If My.Settings.CBHardcore = True Then _
+		If My.Settings.CBHardcore = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "HARDCORE") Then _
 		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoHardcore))
 
-		If My.Settings.CBSoftcore = True Then _
+		If My.Settings.CBSoftcore = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "SOFTCORE") Then _
 		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoSoftcore))
 
-		If My.Settings.CBLesbian = True Then _
+		If My.Settings.CBLesbian = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "LESBIAN") Then _
 		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoLesbian))
 
-		If My.Settings.CBBlowjob = True Then _
+		If My.Settings.CBBlowjob = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "BLOWJOB") Then _
 		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoBlowjob))
 
-		If My.Settings.CBFemdom = True Then _
+		If My.Settings.CBFemdom = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "FEMDOM") Then _
 		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemdom))
 
-		If My.Settings.CBFemsub = True Then _
+		If My.Settings.CBFemsub = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "FEMSUB") Then _
 		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemsub))
 
 		If ssh.NoSpecialVideo = True Then GoTo SkipSpecial
@@ -6658,38 +6659,38 @@ Retry:
 		'======================================================================================
 		'								Special - Videos
 		'======================================================================================
-		If My.Settings.CBJOI = True Then _
+		If My.Settings.CBJOI = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "JOI") Then _
 		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoJOI))
 
-		If My.Settings.CBCH = True Then _
+		If My.Settings.CBCH = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "CH") Then _
 		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoCH))
 
 SkipSpecial:
 		'======================================================================================
 		'									General Videos
 		'======================================================================================
-		If My.Settings.CBGeneral = True Then _
+		If My.Settings.CBGeneral = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "GENERAL") Then _
 		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoGeneral))
 
 		'======================================================================================
 		'									Domme - Videos
 		'======================================================================================
-		If My.Settings.CBHardcoreD = True Then _
+		If My.Settings.CBHardcoreD = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "HARDCORE DOMME") Then _
 		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoHardcoreD))
 
-		If My.Settings.CBSoftcoreD = True Then _
+		If My.Settings.CBSoftcoreD = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "SOFTCORE DOMME") Then _
 		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoSoftcoreD))
 
-		If My.Settings.CBLesbianD = True Then _
+		If My.Settings.CBLesbianD = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "LESBIAN DOMME") Then _
 		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoLesbianD))
 
-		If My.Settings.CBBlowjobD = True Then _
+		If My.Settings.CBBlowjobD = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "BLOWJOB DOMME") Then _
 		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoBlowjobD))
 
-		If My.Settings.CBFemdomD = True Then _
+		If My.Settings.CBFemdomD = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "FEMDOM DOMME") Then _
 		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemdomD))
 
-		If My.Settings.CBFemsubD = True Then _
+		If My.Settings.CBFemsubD = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "FEMSUB DOMME") Then _
 		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemsubD))
 
 		If ssh.NoSpecialVideo = True Then GoTo SkipSpecialD
@@ -6702,20 +6703,20 @@ SkipSpecial:
 		'======================================================================================
 		'								Domme - Special - Videos
 		'======================================================================================
-		If My.Settings.CBJOID = True Then _
+		If My.Settings.CBJOID = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "JOI DOMME") Then _
 		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoJOID))
 
-		If My.Settings.CBCHD = True Then _
+		If My.Settings.CBCHD = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "CH DOMME") Then _
 		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoCHD))
 
 SkipSpecialD:
 		'======================================================================================
 		'								Domme - General Videos
 		'======================================================================================
-		If My.Settings.CBGeneralD = True Then _
+		If My.Settings.CBGeneralD = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "GENERAL DOMME") Then _
 		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoGeneralD))
 
-
+		ssh.VideoGenre = "ALL"
 
 		If __TotalFiles.Count = 0 Then Exit Sub
 
@@ -8177,7 +8178,7 @@ StatusUpdateEnd:
 
 	Public Function PoundClean(ByVal StringClean As String) As String
 #If TRACE Then
-		Dim wrongVocabs As List(Of String) = New List(Of String)
+		Dim alreadyChecked As List(Of String) = New List(Of String)
 		Dim TS As New TraceSwitch("PoundClean", "")
 
 		If TS.TraceVerbose Then
@@ -8230,77 +8231,80 @@ StatusUpdateEnd:
 			If StringClean.Contains("@CustomMode(") Then
 				controlCustom = GetParentheses(StringClean, "@CustomMode(")
 			End If
-			' Try to get content from file but avoid changing twice the same vocab if it is present in more than one istance in the regex
-			Dim lastKey As String = "emptyString"
+
 			For Each keyword As Match In mc
 				Dim doNotContinue As Boolean = False
-				For i As Integer = 0 To wrongVocabs.Count - 1
-					If wrongVocabs(i) = keyword.Value Then
+				'if we already checked for this vocab we avoid checking again
+				For i As Integer = 0 To alreadyChecked.Count - 1
+					If alreadyChecked(i) = keyword.Value Then
 						doNotContinue = True
 						Exit For
 					End If
 				Next
 
-				If Not lastKey.Equals(keyword.Value) Then
+				If Not doNotContinue Then
 #If TRACE Then
-						If TS.TraceVerbose Then Trace.WriteLine(String.Format("Applying vocabulary: ""{0}""", keyword.Value))
+					If TS.TraceVerbose Then Trace.WriteLine(String.Format("Applying vocabulary: ""{0}""", keyword.Value))
 #End If
 
-						Dim filepath As String = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\" & keyword.Value & ".txt"
+					Dim filepath As String = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\" & keyword.Value & ".txt"
 
-						If Directory.Exists(Path.GetDirectoryName(filepath)) AndAlso File.Exists(filepath) Then
-							Dim lines As List(Of String) = Txt2List(filepath)
+					If Directory.Exists(Path.GetDirectoryName(filepath)) AndAlso File.Exists(filepath) Then
+						Dim lines As List(Of String) = Txt2List(filepath)
 
 
-							lines = FilterList(lines)
-							If controlCustom.Contains(keyword.ToString) Then customVocabLines = lines
-							If lines.Count > 0 Then
+						lines = FilterList(lines)
+						If controlCustom.Contains(keyword.ToString) Then customVocabLines = lines
+						If lines.Count > 0 Then
 
-								Dim PoundVal As Integer = ssh.randomizer.Next(0, lines.Count)
+							Dim PoundVal As Integer = ssh.randomizer.Next(0, lines.Count)
 
-								StringClean = StringClean.Replace(keyword.Value, lines(PoundVal))
-
-							Else
-
-								'StringClean = StringClean.Replace(keyword.Value, "<font color=""DarkOrange"">" & keyword.Value & "</font>")
-								wrongVocabs.Add(keyword.Value)
-								Dim wrong As String = keyword.Value
-								wrong = wrong.Remove(0, 1)
-								wrong = "Vocab Error:" & wrong
-								If My.Settings.CBOutputErrors = True Then
-									StringClean = StringClean.Replace(keyword.Value, "<font color=""DarkOrange"">" & wrong & "</font>")
-								Else
-									StringClean = StringClean.Replace(keyword.Value, "")
-								End If
-							End If
-
-							'Try
-							'lines = FilterList(lines)
-							'Dim PoundVal As Integer = ssh.randomizer.Next(0, lines.Count)
-							'StringClean = StringClean.Replace(keyword.Value, lines(PoundVal))
-							'Catch ex As Exception
-							'Log.WriteError("Error Processing vocabulary file:  " & filepath, ex,
-							' "Tease AI did not return a valid line while parsing vocabulary file.")
-							'StringClean = "ERROR: Tease AI did not return a valid line while parsing vocabulary file: " & keyword.Value
-							'End Try
+							StringClean = StringClean.Replace(keyword.Value, lines(PoundVal))
 
 						Else
-							wrongVocabs.Add(keyword.Value)
+							'StringClean = StringClean.Replace(keyword.Value, "<font color=""DarkOrange"">" & keyword.Value & "</font>")
 							Dim wrong As String = keyword.Value
 							wrong = wrong.Remove(0, 1)
-							wrong = "Missing Vocab:" & wrong
-							StringClean = StringClean.Replace(keyword.Value, "<font color=""red"">" & wrong & "</font>")
+							wrong = "Vocab Error: " & wrong
+							If My.Settings.CBOutputErrors = True Then
+								StringClean = StringClean.Replace(keyword.Value, "<font color=""DarkOrange"">" & wrong & "</font>")
+								ssh.KeywordError = "<font color=""DarkOrange"">" & wrong & "</font>"
+							Else
+								StringClean = StringClean.Replace(keyword.Value, "")
+							End If
+						End If
 
+						'Try
+						'lines = FilterList(lines)
+						'Dim PoundVal As Integer = ssh.randomizer.Next(0, lines.Count)
+						'StringClean = StringClean.Replace(keyword.Value, lines(PoundVal))
+						'Catch ex As Exception
+						'Log.WriteError("Error Processing vocabulary file:  " & filepath, ex,
+						' "Tease AI did not return a valid line while parsing vocabulary file.")
+						'StringClean = "ERROR: Tease AI did not return a valid line while parsing vocabulary file: " & keyword.Value
+						'End Try
+
+					Else
+						'StringClean = StringClean.Replace(keyword.Value, "<font color=""red"">" & keyword.Value & "</font>")
+						Dim wrong As String = keyword.Value
+
+						If UCase(wrong) = "#NULL" Then
+							StringClean = StringClean.Replace(keyword.Value, "")
+						Else
+							wrong = wrong.Remove(0, 1)
+							wrong = "Missing Vocab: " & wrong
+							StringClean = StringClean.Replace(keyword.Value, "<font color=""red"">" & wrong & "</font>")
+							ssh.KeywordError = "<font color=""red"">" & wrong & "</font>"
 							Dim lazytext As String = "Unable to locate vocabulary file: """ & keyword.Value & """"
 							Log.WriteError(lazytext, New Exception(lazytext), "PoundClean(String)")
-
 						End If
 					End If
-					lastKey = keyword.Value
-				Next
+					alreadyChecked.Add(keyword.Value)
+				End If
+			Next
 
 #If TRACE Then
-				Trace.Unindent()
+			Trace.Unindent()
 #End If
 		Loop
 
@@ -8344,10 +8348,10 @@ StatusUpdateEnd:
 		End If
 
 		If StringClean.Contains("@FollowUp(") And ssh.FollowUp = "" Then
+			StringClean = StringClean.Trim
 			ssh.FollowUp = GetParentheses(StringClean, "@FollowUp(", StringClean.Split(")").Count - 1)
 			'if there is a leftover ) (might happen in very complex followUp) we remove it
-			ssh.FollowUp = ssh.FollowUp.Trim
-			If ssh.FollowUp.EndsWith(")") Then ssh.FollowUp = ssh.FollowUp.Remove(ssh.FollowUp.Length - 1, 1)
+			If ssh.FollowUp.Trim.EndsWith(")") Then ssh.FollowUp = ssh.FollowUp.Remove(ssh.FollowUp.LastIndexOf(")"c), 1)
 			StringClean = StringClean.Replace("@FollowUp(" & ssh.FollowUp & ")", "")
 		End If
 
@@ -8370,16 +8374,16 @@ StatusUpdateEnd:
 			ssh.TempVal = ssh.randomizer.Next(1, 101)
 
 			Dim FollowLineTemp As String
+			StringClean = StringClean.Trim
 			FollowLineTemp = GetParentheses(StringClean, "@FollowUp" & FollowTemp & "(", StringClean.Split(")").Count - 1)
 			'if there is a leftover ) (might happen in very complex followUp) we remove it
-			FollowLineTemp = FollowLineTemp.Trim
-			If FollowLineTemp.EndsWith(")") Then FollowLineTemp = FollowLineTemp.Remove(FollowLineTemp.Length - 1, 1)
+			If FollowLineTemp.Trim.EndsWith(")") Then FollowLineTemp = FollowLineTemp.Remove(FollowLineTemp.LastIndexOf(")"c), 1)
 
 			If ssh.TempVal <= FollowVal Then ssh.FollowUp = FollowLineTemp
 
 			StringClean = StringClean.Replace("@FollowUp" & FollowTemp & "(" & FollowLineTemp & ")", "")
 		End If
-		
+
 
 RinseLatherRepeat:
 		'▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
@@ -11164,6 +11168,7 @@ OrgasmDecided:
 
 		If StringClean.Contains("@CheckVideo") Then
 			ssh.VideoCheck = True
+			ssh.VideoGenre = "ALL"
 			RandomVideo()
 			If ssh.NoVideo = True Then
 				ssh.FileGoto = "(No Videos Found)"
@@ -11184,6 +11189,7 @@ OrgasmDecided:
 				selectVideo(videoFlag)
 				StringClean = StringClean.Replace("@PlayCensorshipSucks[" & videoFlag & "]", "")
 			Else
+				ssh.VideoGenre = "ALL"
 				RandomVideo()
 				StringClean = StringClean.Replace("@PlayCensorshipSucks", "")
 			End If
@@ -11234,6 +11240,7 @@ OrgasmDecided:
 				selectVideo(videoFlag)
 				StringClean = StringClean.Replace("@PlayAvoidTheEdge[" & videoFlag & "]", "")
 			Else
+				ssh.VideoGenre = "ALL"
 				RandomVideo()
 				StringClean = StringClean.Replace("@PlayAvoidTheEdge", "")
 			End If
@@ -11280,6 +11287,7 @@ OrgasmDecided:
 				selectVideo(videoFlag)
 				StringClean = StringClean.Replace("@PlayRedLightGreenLight[" & videoFlag & "]", "")
 			Else
+				ssh.VideoGenre = "ALL"
 				RandomVideo()
 				StringClean = StringClean.Replace("@PlayRedLightGreenLight", "")
 			End If
@@ -11362,10 +11370,46 @@ ExternalAudio:
 
 		If StringClean.Contains("@PlayVideo(") Then
 
+			ssh.VideoGenre = "ALL"
+			Dim VidInt As Integer = 0
 
 			Dim VidFlag As String = GetParentheses(StringClean, "@PlayVideo(")
-			Dim VidInt As Integer = Val(VidFlag)
-			If UCase(VidFlag).Contains("M") Then VidInt *= 60
+
+			If VidFlag.Contains(",") Then VidFlag = FixCommas(VidFlag)
+			Dim FlagArray As String() = VidFlag.Split(",")
+
+			For i As Integer = 0 To FlagArray.Count - 1
+
+				If Val(FlagArray(i)) > 0 Then
+					VidInt = Val(FlagArray(i))
+					If UCase(FlagArray(i)).Contains("M") Then VidInt *= 60
+				End If
+
+				If UCase(FlagArray(i)).Contains("HARDCORE") Then ssh.VideoGenre = "HARDCORE"
+				If UCase(FlagArray(i)).Contains("SOFTCORE") Then ssh.VideoGenre = "SOFTCORE"
+				If UCase(FlagArray(i)).Contains("LESBIAN") Then ssh.VideoGenre = "LESBIAN"
+				If UCase(FlagArray(i)).Contains("BLOWJOB") Then ssh.VideoGenre = "BLOWJOB"
+				If UCase(FlagArray(i)).Contains("FEMDOM") Then ssh.VideoGenre = "FEMDOM"
+				If UCase(FlagArray(i)).Contains("FEMSUB") Then ssh.VideoGenre = "FEMSUB"
+				If UCase(FlagArray(i)).Contains("JOI") Then ssh.VideoGenre = "JOI"
+				If UCase(FlagArray(i)).Contains("CH") Then ssh.VideoGenre = "CH"
+				If UCase(FlagArray(i)).Contains("GENERAL") Then ssh.VideoGenre = "GENERAL"
+
+				If UCase(FlagArray(i)).Contains("HARDCORE DOMME") Then ssh.VideoGenre = "HARDCORE DOMME"
+				If UCase(FlagArray(i)).Contains("SOFTCORE DOMME") Then ssh.VideoGenre = "SOFTCORE DOMME"
+				If UCase(FlagArray(i)).Contains("LESBIAN DOMME") Then ssh.VideoGenre = "LESBIAN DOMME"
+				If UCase(FlagArray(i)).Contains("BLOWJOB DOMME") Then ssh.VideoGenre = "BLOWJOB DOMME"
+				If UCase(FlagArray(i)).Contains("FEMDOM DOMME") Then ssh.VideoGenre = "FEMDOM DOMME"
+				If UCase(FlagArray(i)).Contains("FEMSUB DOMME") Then ssh.VideoGenre = "FEMSUB DOMME"
+				If UCase(FlagArray(i)).Contains("JOI DOMME") Then ssh.VideoGenre = "JOI DOMME"
+				If UCase(FlagArray(i)).Contains("CH DOMME") Then ssh.VideoGenre = "CH DOMME"
+				If UCase(FlagArray(i)).Contains("GENERAL DOMME") Then ssh.VideoGenre = "GENERAL DOMME"
+
+			Next
+
+
+			'Dim VidInt As Integer = Val(VidFlag)
+			'If UCase(VidFlag).Contains("M") Then VidInt *= 60
 
 			If StringClean.Contains("@JumpVideo") Then
 				ssh.JumpVideo = True
@@ -11377,8 +11421,10 @@ ExternalAudio:
 
 			If ssh.NoVideo = False Then
 				ssh.TeaseVideo = True
-				ssh.VideoTick = VidInt
-				VideoTimer.Start()
+				If VidInt > 0 Then
+					ssh.VideoTick = VidInt
+					VideoTimer.Start()
+				End If
 			Else
 				MessageBox.Show(Me, "No videos were found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
 			End If
@@ -11392,6 +11438,8 @@ ExternalAudio:
 
 
 		If StringClean.Contains("@PlayVideo") Then
+
+			ssh.VideoGenre = "ALL"
 
 			If StringClean.Contains("@JumpVideo") Then
 				ssh.JumpVideo = True
@@ -12873,7 +12921,7 @@ VTSkip:
 
 	End Sub
 
-#End Region	' WebToy
+#End Region  ' WebToy
 
 #Region "-------------------------------- Script: Flags/Dates/Variables ---------------------------------"
 
@@ -12917,7 +12965,7 @@ VTSkip:
 
 	End Function
 
-#End Region	' Script-Flags
+#End Region ' Script-Flags
 
 #Region "------------------------------------- Script-Variables -----------------------------------------"
 
@@ -13072,7 +13120,7 @@ VTSkip:
 
 	End Function
 
-#End Region	' Script-Variables
+#End Region ' Script-Variables
 
 #Region "---------------------------------------- Script-Dates ------------------------------------------"
 
@@ -13206,9 +13254,9 @@ VTSkip:
 
 	End Function
 
-#End Region	' Script-Dates
+#End Region ' Script-Dates
 
-#End Region	' Flags/Dates/Variables
+#End Region ' Flags/Dates/Variables
 
 
 
@@ -13589,6 +13637,10 @@ VTSkip:
 		'		Grouped-Lines-Check-END 
 		'▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
+		'▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+		' NEW FilterList TEST Begin
+		'▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
 		For i As Integer = ListClean.Count - ListIncrement To 0 Step -ListIncrement
 			For x As Integer = ListIncrement - 1 To 0 Step -1
 				If GetFilter(ListClean(i + x)) = False Then
@@ -13599,6 +13651,20 @@ VTSkip:
 				End If
 			Next
 		Next
+
+		'▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+		' NEW FilterList TEST End
+		'▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
+
+		'▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+		' Current FilterList Begin
+		'▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
+		'For i As Integer = 0 To ListClean.Count - 1 Step ListIncrement
+
+		'FilterPass = True
+
 		'For x As Integer = 0 To ListIncrement - 1
 		'If GetFilter(ListClean(i + x)) = False Then
 		'FilterPass = False
@@ -13610,13 +13676,17 @@ VTSkip:
 		'For x As Integer = 0 To ListIncrement - 1
 		'ListClean(i + x) = ListClean(i + x) & "###-INVALID-###"
 		'Next
-		'	End If
+		'End If
 
 		'Next
 
-		'		For i As Integer = ListClean.Count - 1 To 0 Step -1
-		'		If ListClean(i).Contains("###-INVALID-###") Then ListClean.RemoveAt(i)
-		'		Next
+		'For i As Integer = ListClean.Count - 1 To 0 Step -1
+		'If ListClean(i).Contains("###-INVALID-###") Then ListClean.RemoveAt(i)
+		'Next
+
+		'▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+		' Current FilterList End
+		'▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
 		'Dim FilteredList As New List(Of String)
 
@@ -14353,7 +14423,7 @@ VTSkip:
 				.Add("@ShowCaptionsImage", Not Directory.Exists(My.Settings.ICaptions) Or My.Settings.CBICaptions = False Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
 				.Add("@ShowGeneralImage", Not Directory.Exists(My.Settings.IGeneral) Or My.Settings.CBIGeneral = False Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
 				.Add("@ShowBlogImage", FrmSettings.URLFileList.CheckedItems.Count = 0 Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
-				.Add("@NewBlogImage", __ConditionDic("@ShowBlogImage"))	' duplicate Command, lets get the Value af the other one.
+				.Add("@NewBlogImage", __ConditionDic("@ShowBlogImage")) ' duplicate Command, lets get the Value af the other one.
 				.Add("@ShowLocalImage", FlagExists("SYS_NoPornAllowed") = True Or ssh.CustomSlideEnabled = True Or ssh.LockImage = True _
 	   Or (My.Settings.CBIHardcore = False And My.Settings.CBISoftcore = False And My.Settings.CBILesbian = False And My.Settings.CBIBlowjob = False _
 	 And My.Settings.CBIFemdom = False And My.Settings.CBILezdom = False And My.Settings.CBIHentai = False And My.Settings.CBIGay = False _
@@ -14653,7 +14723,7 @@ VTSkip:
 		ScrollChatDown()
 	End Sub
 
-#End Region	' Chatbox
+#End Region  ' Chatbox
 
 #Region "------------------------------------ Avoid the Edge --------------------------------------------"
 
@@ -14827,7 +14897,7 @@ VTSkip:
 
 	End Sub
 
-#End Region	' Avoid the Edge
+#End Region  ' Avoid the Edge
 
 
 
@@ -15752,7 +15822,7 @@ NoRepeatOFiles:
 
 	End Sub
 
-#End Region	' Hold the Edge
+#End Region  ' Hold the Edge
 
 	Public Sub CreateTaskLetter()
 
@@ -16400,7 +16470,7 @@ RestartFunction:
 
 	End Sub
 
-#End Region	'Domme-WMP
+#End Region  'Domme-WMP
 
 	Private Sub domAvatar_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles domAvatar.MouseEnter
 		If FrmSettings.Visible = False And FrmCardList.Visible = False Then domAvatar.Focus()
@@ -16773,7 +16843,7 @@ RestartFunction:
 
 
 
-#End Region	' MainPictureBox
+#End Region  ' MainPictureBox
 
 #Region "-------------------------------------------------- PictureStrip ------------------------------------------------------"
 
@@ -17053,9 +17123,9 @@ saveImage:
 
 	End Sub
 
-#End Region	' DommeSlideshow
+#End Region  ' DommeSlideshow
 
-#End Region	' PictureStrip
+#End Region  ' PictureStrip
 
 	Public Sub LoadDommeImageFolder()
 		'check which domme should be loaded
@@ -17234,6 +17304,10 @@ saveImage:
 		FormatClean = FormatClean.Replace("</u>", "")
 		FormatClean = FormatClean.Replace(FrmSettings.TBEmote.Text, "")
 		FormatClean = FormatClean.Replace(FrmSettings.TBEmoteEnd.Text, "")
+		If ssh.KeywordError <> "" Then
+			FormatClean = FormatClean.Replace(ssh.KeywordError, "")
+			ssh.KeywordError = ""
+		End If
 
 		Return FormatClean
 	End Function
@@ -17566,7 +17640,7 @@ restartInstantly:
 		Me.Dispose()
 	End Sub
 
-#End Region	' File
+#End Region  ' File
 
 #Region "------------------------------------------------------ Settings ------------------------------------------------------"
 
@@ -17642,7 +17716,7 @@ restartInstantly:
 		FrmSettings.Focus()
 	End Sub
 
-#End Region	' Settings
+#End Region  ' Settings
 
 #Region "-------------------------------------------------------- APPs --------------------------------------------------------"
 
@@ -17948,7 +18022,7 @@ restartInstantly:
 
 	End Sub
 
-#End Region	' APPs
+#End Region  ' APPs
 
 #Region "-------------------------------------------------------- Games -------------------------------------------------------"
 
@@ -17987,7 +18061,7 @@ restartInstantly:
 		FrmCardList.Focus()
 	End Sub
 
-#End Region	' Games
+#End Region  ' Games
 
 #Region "----------------------------------------------------- Interface ------------------------------------------------------"
 
@@ -18161,7 +18235,7 @@ restartInstantly:
 		Me.Top = WA.Location.Y + (WA.Height - Me.Height) / 2
 	End Sub
 
-#End Region	' Interface
+#End Region  ' Interface
 
 #Region "------------------------------------------------------- Tools --------------------------------------------------------"
 
@@ -18179,7 +18253,7 @@ restartInstantly:
 		Form8.Show()
 	End Sub
 
-#End Region	' Tools
+#End Region  ' Tools
 
 #Region "------------------------------------------------------ Milovana ------------------------------------------------------"
 
@@ -18203,7 +18277,7 @@ restartInstantly:
 		Process.Start("https://milovana.com/forum/")
 	End Sub
 
-#End Region	' Milovana
+#End Region  ' Milovana
 
 	Private Sub StartTimer1ToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles StartTimer1ToolStripMenuItem.Click
 		Timer1.Start()
@@ -18256,7 +18330,7 @@ restartInstantly:
 
 
 
-#End Region	' Menu
+#End Region  ' Menu
 
 
 
@@ -18831,7 +18905,7 @@ restartInstantly:
 		End If
 	End Sub
 
-#End Region	' Regular Buttons
+#End Region  ' Regular Buttons
 
 
 	Public Function AddDommeTag(ByVal AddDomTag As String, ByVal AddCustomDomTag As String)
@@ -19266,7 +19340,7 @@ restartInstantly:
 	End Sub
 
 
-#End Region	' DommeTag APP
+#End Region  ' DommeTag APP
 
 #Region "------------------------------------------------------ Lazy-Sub ------------------------------------------------------"
 
@@ -19672,7 +19746,7 @@ restartInstantly:
 
 	End Sub
 
-#End Region	' Lazy-Sub
+#End Region  ' Lazy-Sub
 
 #Region "-------------------------------------------------- Randomizer-App ----------------------------------------------------"
 
@@ -19696,6 +19770,7 @@ restartInstantly:
 
 	Private Sub BTNRandomVideo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BTNRandomVideo.Click
 		ssh.RandomizerVideo = True
+		ssh.VideoGenre = "ALL"
 		RandomVideo()
 		ssh.RandomizerVideo = False
 	End Sub
@@ -19710,6 +19785,7 @@ restartInstantly:
 
 		ssh.ScriptVideoTease = "Censorship Sucks"
 		ssh.ScriptVideoTeaseFlag = True
+		ssh.VideoGenre = "ALL"
 		RandomVideo()
 		ssh.ScriptVideoTeaseFlag = False
 		ssh.CensorshipGame = True
@@ -19731,6 +19807,7 @@ restartInstantly:
 		ssh.ScriptVideoTeaseFlag = True
 		ssh.AvoidTheEdgeStroking = True
 		ssh.AvoidTheEdgeGame = True
+		ssh.VideoGenre = "ALL"
 		RandomVideo()
 		ssh.ScriptVideoTeaseFlag = False
 		ssh.VideoTease = True
@@ -19753,6 +19830,7 @@ restartInstantly:
 		ssh.ScriptVideoTeaseFlag = True
 		'AvoidTheEdgeStroking = True
 		ssh.RLGLGame = True
+		ssh.VideoGenre = "ALL"
 		RandomVideo()
 		ssh.ScriptVideoTeaseFlag = False
 		ssh.VideoTease = True
@@ -20230,7 +20308,7 @@ restartInstantly:
 		End If
 	End Sub
 
-#End Region	' Vital Sub
+#End Region  ' Vital Sub
 
 	Public Sub MetronomeTick()
 		'×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
@@ -20345,9 +20423,9 @@ playLoop:
 		My.Settings.MetroOn = CBMetronome.Checked
 	End Sub
 
-#End Region	' Metronome App
+#End Region  ' Metronome App
 
-#End Region	' Apps
+#End Region  ' Apps
 
 	Private Sub VideoTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VideoTimer.Tick
 
@@ -20812,10 +20890,10 @@ playLoop:
 		'remove eventual @ContactX present in a @FollowUp() inside the line
 		If stringToCheck.Contains("@FollowUp") Then
 			Dim remove As String
+			stringToCheck = stringToCheck.Trim
 			remove = GetParentheses(stringToCheck, "@FollowUp(", stringToCheck.Split(")").Count - 1)
 			'if there is a leftover ) (might happen in very complex followUp) we remove it
-			remove = remove.Trim
-			If remove.Trim.EndsWith(")") Then remove = remove.Remove(remove.LastIndexOf(")", 0), 1)
+			If remove.Trim.EndsWith(")") Then remove = remove.Remove(remove.LastIndexOf(")"c), 1)
 			stringToCheck = stringToCheck.Replace("@FollowUp(" & remove & ")", "")
 		End If
 
