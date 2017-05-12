@@ -38,7 +38,7 @@ Public Class subAnswers
 		Return checkList
 	End Function
 
-	Public Function isSystemWord(wordList As String) As Boolean
+	Public Function isSystemWord(ByVal wordList As String) As Boolean
 		For i As Integer = 0 To checkList.Count() - 1
 			Dim list As String() = ssh.obtainSplitParts(checkList(i), False)
 			For n As Integer = 0 To list.Count - 1
@@ -48,7 +48,7 @@ Public Class subAnswers
 		Return False
 	End Function
 
-	Public Sub addToAnswerList(words As String)
+	Public Sub addToAnswerList(ByVal words As String)
 		Dim split() = words.Split(",")
 		For i As Integer = 0 To split.Count - 1
 			answerList.Add(split(i))
@@ -59,16 +59,20 @@ Public Class subAnswers
 		answerList.Clear()
 	End Sub
 
-	Public Function triggerWord(chatstring As String) As String
+	Public Function triggerWord(ByVal chatstring As String) As String
+
 		'we first order the list based on lenght of the answer option (and if equal lenght, by the order in which they are in the answer list)
+
 		Dim sorted = answerList.OrderByDescending(Function(x) x.Length).ThenBy(Function(x) answerList.IndexOf(x)).ToArray
 
 		'we then check only the answers with more than 1 word to see if the chat strings contain any of them
+
 		For i As Integer = 0 To sorted.Count - 1
-			If InStr(sorted(i), " ") > 0 Then If chatstring.Contains(sorted(i)) Then Return sorted(i)
+			If InStr(sorted(i), " ") > 0 Then If chatstring.Contains(sorted(i).Trim) Then Return sorted(i).Trim
 		Next
 
 		'if all multiple words answers didn't return an answer, we check for the single words in the chat to see if any of them matches
+
 		Dim singleWords() = ssh.obtainSplitParts(chatstring, True)
 		For i As Integer = 0 To singleWords.Count - 1
 			For n As Integer = 0 To answerList.Count - 1
@@ -81,4 +85,5 @@ Public Class subAnswers
 	Public Function answerNumber() As Integer
 		Return answerList.Count
 	End Function
+
 End Class

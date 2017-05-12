@@ -404,9 +404,16 @@ retryStart:
 			FrmSplash.LBLSplash.Text = "Checking recent slideshows..."
 			FrmSplash.Refresh()
 
-			For Each path As String In My.Settings.RecentSlideshows
-				If Directory.Exists(path) Then ImageFolderComboBox.Items.Add(path)
+
+			Dim uniqueNames = From u In My.Settings.RecentSlideshows Distinct
+
+			For Each n In uniqueNames
+				If Directory.Exists(n) Then ImageFolderComboBox.Items.Add(n)
 			Next
+
+			'For Each path As String In My.Settings.RecentSlideshows
+			'If Directory.Exists(Path) Then ImageFolderComboBox.Items.Add(Path)
+			'Next
 			' because Specialized.StringCollections are crap, 
 			' we have to clear And refill it using For-Each...
 			My.Settings.RecentSlideshows.Clear()
@@ -3547,8 +3554,11 @@ NullSkip:
 		If ssh.checkAnswers.answerNumber = 0 Then
 			Do
 				line += 1
-				Dim getWords As String = GetParentheses(lines(line), "[")
-				ssh.checkAnswers.addToAnswerList(getWords)
+				Debug.Print("YESNO Line = " & lines(line))
+				If Not UCase(lines(line)).Contains("@DIFFERENTANSWER") And Not UCase(lines(line)).Contains("@ACCEPTANSWER") Then
+					Dim getWords As String = GetParentheses(lines(line), "[")
+					ssh.checkAnswers.addToAnswerList(getWords)
+				End If
 
 			Loop Until InStr(UCase(lines(line)), UCase("@AcceptAnswer")) <> 0 Or InStr(UCase(lines(line)), UCase("@DifferentAnswer")) <> 0
 			TempLineVal = line
@@ -3557,11 +3567,13 @@ NullSkip:
 
 		Dim CheckLines As String
 		Dim ChatReplace As String
+
 		'we get the trigger word that is present in the chat (if there is a word that matches one of the answers)
 		Dim triggerWord As String = ssh.checkAnswers.triggerWord(ssh.ChatString)
 
 		'we check to see what answer to trigger only if there was a trigger word, otherwise we move directly to the noanswer found part
 		If triggerWord <> "" Then
+
 			Do
 				line += 1
 				CheckLines = lines(line)
@@ -3600,6 +3612,7 @@ NullSkip:
 				End If
 
 			Loop Until InStr(UCase(lines(line)), UCase("@DifferentAnswer")) <> 0 Or InStr(UCase(lines(line)), UCase("@AcceptAnswer")) <> 0
+
 		End If
 
 		GoTo NothingFound
@@ -3645,8 +3658,8 @@ LoopAnswer:
 		If InStr(UCase(lines(TempLineVal)), UCase("AcceptAnswer")) <> 0 Then
 
 AcceptAnswer:
-			ssh.DomChat = lines(line)
-			'ssh.DomChat = lines(TempLineVal)
+			'ssh.DomChat = lines(line)
+			ssh.DomChat = lines(TempLineVal)
 			' TimedAnswerTimer.Stop()
 
 			'we clear the answer list 
@@ -6080,14 +6093,16 @@ DommeSlideshowFallback:
 
 #Region "------------------------------------------ Images ----------------------------------------------"
 
-	Private Sub LoadCustomizedSlideshow(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles browsefolderButton.Click, ImageFolderComboBox.KeyDown, ImageFolderComboBox.SelectedIndexChanged
+	Private Sub LoadCustomizedSlideshow(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles browsefolderButton.Click, ImageFolderComboBox.KeyDown, ImageFolderComboBox.SelectionChangeCommitted
 		'TODO-Next-Stefaf: Implement enhanced RecentSlideshows.Item handling
 		If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then
 			MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu is Visible"" option first!", , "Warning!")
 			Return
 		End If
+
 		Try
 			Dim GetFolder As String = ""
+			Dim ManuallyEntered As Boolean = False
 			browsefolderButton.Enabled = False
 			nextButton.Enabled = False
 			previousButton.Enabled = False
@@ -6108,9 +6123,15 @@ DommeSlideshowFallback:
 
 					ImageFolderComboBox.Items.Clear()
 
-					For Each comboitem As String In My.Settings.RecentSlideshows
-						ImageFolderComboBox.Items.Add(comboitem)
+					Dim uniqueNames = From u In My.Settings.RecentSlideshows Distinct
+
+					For Each n In uniqueNames
+						ImageFolderComboBox.Items.Add(n)
 					Next
+
+					'For Each comboitem As String In My.Settings.RecentSlideshows
+					'ImageFolderComboBox.Items.Add(comboitem)
+					'Next
 
 					ImageFolderComboBox.Text = GetFolder
 				End If
@@ -6122,6 +6143,7 @@ DommeSlideshowFallback:
 
 				If _e.KeyCode = Keys.Enter Then
 					_e.Handled = True
+					ManuallyEntered = True
 					GoTo chooseComboboxText
 				Else
 					Exit Sub
@@ -6131,8 +6153,36 @@ DommeSlideshowFallback:
 				'								ImageFolderComboBox
 				'===============================================================================
 chooseComboboxText:
-				If Directory.Exists(ImageFolderComboBox.Text) Or isURL(ImageFolderComboBox.Text) Then
-					GetFolder = ImageFolderComboBox.Text
+				'ImageFolderComboBox.Text = ImageFolderComboBox.SelectedItem
+				Dim StringToCheck As String
+				If ManuallyEntered = True Then
+					StringToCheck = ImageFolderComboBox.Text
+				Else
+					StringToCheck = ImageFolderComboBox.SelectedItem
+				End If
+
+				If Directory.Exists(StringToCheck) Or isURL(StringToCheck) Then
+					GetFolder = StringToCheck
+
+					My.Settings.RecentSlideshows.Add(GetFolder)
+
+					Do Until My.Settings.RecentSlideshows.Count < 11
+						My.Settings.RecentSlideshows.Remove(My.Settings.RecentSlideshows(0))
+					Loop
+
+					ImageFolderComboBox.Items.Clear()
+
+					Dim uniqueNames = From u In My.Settings.RecentSlideshows Distinct
+
+					For Each n In uniqueNames
+						ImageFolderComboBox.Items.Add(n)
+					Next
+
+					ImageFolderComboBox.Text = GetFolder
+
+					'For Each comboitem As String In My.Settings.RecentSlideshows
+					'ImageFolderComboBox.Items.Add(comboitem)
+					'Next
 				Else
 					Throw New DirectoryNotFoundException("The given directory """ & ImageFolderComboBox.Text & """ does not exist.")
 				End If
@@ -6631,22 +6681,22 @@ Retry:
 		'									Genre Videos
 		'======================================================================================
 		If My.Settings.CBHardcore = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "HARDCORE") Then _
-		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoHardcore))
+		__TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoHardcore))
 
 		If My.Settings.CBSoftcore = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "SOFTCORE") Then _
-		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoSoftcore))
+		__TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoSoftcore))
 
 		If My.Settings.CBLesbian = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "LESBIAN") Then _
-		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoLesbian))
+		__TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoLesbian))
 
 		If My.Settings.CBBlowjob = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "BLOWJOB") Then _
-		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoBlowjob))
+		__TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoBlowjob))
 
 		If My.Settings.CBFemdom = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "FEMDOM") Then _
-		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemdom))
+		__TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemdom))
 
 		If My.Settings.CBFemsub = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "FEMSUB") Then _
-		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemsub))
+		__TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemsub))
 
 		If ssh.NoSpecialVideo = True Then GoTo SkipSpecial
 
@@ -6660,38 +6710,38 @@ Retry:
 		'								Special - Videos
 		'======================================================================================
 		If My.Settings.CBJOI = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "JOI") Then _
-		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoJOI))
+   __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoJOI))
 
 		If My.Settings.CBCH = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "CH") Then _
-		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoCH))
+   __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoCH))
 
 SkipSpecial:
 		'======================================================================================
 		'									General Videos
 		'======================================================================================
 		If My.Settings.CBGeneral = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "GENERAL") Then _
-		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoGeneral))
+   __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoGeneral))
 
 		'======================================================================================
 		'									Domme - Videos
 		'======================================================================================
 		If My.Settings.CBHardcoreD = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "HARDCORE DOMME") Then _
-		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoHardcoreD))
+   __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoHardcoreD))
 
 		If My.Settings.CBSoftcoreD = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "SOFTCORE DOMME") Then _
-		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoSoftcoreD))
+   __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoSoftcoreD))
 
 		If My.Settings.CBLesbianD = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "LESBIAN DOMME") Then _
-		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoLesbianD))
+   __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoLesbianD))
 
 		If My.Settings.CBBlowjobD = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "BLOWJOB DOMME") Then _
-		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoBlowjobD))
+   __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoBlowjobD))
 
 		If My.Settings.CBFemdomD = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "FEMDOM DOMME") Then _
-		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemdomD))
+   __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemdomD))
 
 		If My.Settings.CBFemsubD = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "FEMSUB DOMME") Then _
-		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemsubD))
+   __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemsubD))
 
 		If ssh.NoSpecialVideo = True Then GoTo SkipSpecialD
 		If ssh.ScriptVideoTeaseFlag = True Then
@@ -6704,17 +6754,17 @@ SkipSpecial:
 		'								Domme - Special - Videos
 		'======================================================================================
 		If My.Settings.CBJOID = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "JOI DOMME") Then _
-		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoJOID))
+   __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoJOID))
 
 		If My.Settings.CBCHD = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "CH DOMME") Then _
-		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoCHD))
+   __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoCHD))
 
 SkipSpecialD:
 		'======================================================================================
 		'								Domme - General Videos
 		'======================================================================================
 		If My.Settings.CBGeneralD = True And (ssh.VideoGenre = "ALL" Or ssh.VideoGenre = "GENERAL DOMME") Then _
-		 __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoGeneralD))
+   __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoGeneralD))
 
 		ssh.VideoGenre = "ALL"
 
@@ -8118,6 +8168,76 @@ StatusUpdateEnd:
 
 		StringClean = StringClean.Replace("#CurrentImage", ssh.ImageLocation)
 
+		Dim int As Integer
+
+		If StringClean.Contains("#TaskEdges") Then
+			int = ssh.randomizer.Next(FrmSettings.NBTaskEdgesMin.Value, FrmSettings.NBTaskEdgesMax.Value + 1)
+			If int > 5 Then int = 5 * Math.Round(int / 5)
+			StringClean = StringClean.Replace("#TaskEdges", int)
+		End If
+
+		If StringClean.Contains("#TaskStrokes") Then
+			int = ssh.randomizer.Next(FrmSettings.NBTaskStrokesMin.Value, FrmSettings.NBTaskStrokesMax.Value + 1)
+			If int > 10 Then int = 10 * Math.Round(int / 10)
+			StringClean = StringClean.Replace("#TaskStrokes", int)
+		End If
+
+		If StringClean.Contains("#TaskHours") Then
+			int = ssh.randomizer.Next(1, FrmSettings.domlevelNumBox.Value + 1) + FrmSettings.domlevelNumBox.Value
+			StringClean = StringClean.Replace("#TaskHours", int)
+		End If
+
+		If StringClean.Contains("#TaskMinutes") Then
+			int = ssh.randomizer.Next(5, 13) * FrmSettings.domlevelNumBox.Value
+			StringClean = StringClean.Replace("#TaskMinutes", int)
+		End If
+
+		If StringClean.Contains("#TaskSeconds") Then
+			int = ssh.randomizer.Next(10, 30) * FrmSettings.domlevelNumBox.Value * ssh.randomizer.Next(1, FrmSettings.domlevelNumBox.Value + 1)
+			StringClean = StringClean.Replace("#TaskSeconds", int)
+		End If
+
+		If StringClean.Contains("#TaskAmountLarge") Then
+			int = (ssh.randomizer.Next(15, 26) * FrmSettings.domlevelNumBox.Value) * 2
+			If int > 5 Then int = 5 * Math.Round(int / 5)
+			StringClean = StringClean.Replace("#TaskAmountLarge", int)
+		End If
+
+		If StringClean.Contains("#TaskAmountSmall") Then
+			int = (ssh.randomizer.Next(5, 11) * FrmSettings.domlevelNumBox.Value) / 2
+			If int > 5 Then int = 5 * Math.Round(int / 5)
+			StringClean = StringClean.Replace("#TaskAmountSmall", int)
+		End If
+
+		If StringClean.Contains("#TaskAmount") Then
+			int = ssh.randomizer.Next(15, 26) * FrmSettings.domlevelNumBox.Value
+			If int > 5 Then int = 5 * Math.Round(int / 5)
+			StringClean = StringClean.Replace("#TaskAmount", int)
+		End If
+
+		If StringClean.Contains("#TaskStrokingTime") Then
+			int = ssh.randomizer.Next(FrmSettings.NBTaskStrokingTimeMin.Value, FrmSettings.NBTaskStrokingTimeMax.Value + 1)
+			int *= 60
+			Dim TConvert As String = ConvertSeconds(int)
+			StringClean = StringClean.Replace("#TaskStrokingTime", TConvert)
+		End If
+
+		If StringClean.Contains("#TaskHoldTheEdgeTime") Then
+			int = ssh.randomizer.Next(FrmSettings.NBTaskEdgeHoldTimeMin.Value, FrmSettings.NBTaskEdgeHoldTimeMax.Value + 1)
+			int *= 60
+			Dim TConvert As String = ConvertSeconds(int)
+			StringClean = StringClean.Replace("#TaskHoldTheEdgeTime", TConvert)
+		End If
+
+		If StringClean.Contains("#TaskCBTTime") Then
+			int = ssh.randomizer.Next(FrmSettings.NBTaskCBTTimeMin.Value, FrmSettings.NBTaskCBTTimeMax.Value + 1)
+			int *= 60
+			Dim TConvert As String = ConvertSeconds(int)
+			StringClean = StringClean.Replace("#TaskCBTTime", TConvert)
+		End If
+
+
+
 		Return StringClean
 
 
@@ -8286,6 +8406,7 @@ StatusUpdateEnd:
 
 					Else
 						'StringClean = StringClean.Replace(keyword.Value, "<font color=""red"">" & keyword.Value & "</font>")
+
 						Dim wrong As String = keyword.Value
 
 						If UCase(wrong) = "#NULL" Then
@@ -8298,9 +8419,14 @@ StatusUpdateEnd:
 							Dim lazytext As String = "Unable to locate vocabulary file: """ & keyword.Value & """"
 							Log.WriteError(lazytext, New Exception(lazytext), "PoundClean(String)")
 						End If
+
+
+
 					End If
-					alreadyChecked.Add(keyword.Value)
 				End If
+				alreadyChecked.Add(keyword.Value)
+				End If
+
 			Next
 
 #If TRACE Then
@@ -15906,6 +16032,7 @@ Night:
 
 
 			Dim LoopBuffer As Integer
+			Dim int As Integer
 
 			TaskArray = TaskEntry.Split(" ")
 			For i As Integer = 0 To TaskArray.Count - 1
@@ -15922,7 +16049,7 @@ PoundLoop:
 					TaskList(i) = TaskList(i).Replace(". #Emote", " #Emote")
 					TaskList(i) = TaskList(i).Replace(". #Grin", " #Grin")
 					TaskList(i) = TaskList(i).Replace(". #Lol", " #Lol.")
-
+					TaskList(i) = SysKeywordClean(TaskList(i))
 					TaskList(i) = PoundClean(TaskList(i))
 					If TaskEntry.Contains("#") And LoopBuffer < 6 Then GoTo PoundLoop
 
@@ -15931,7 +16058,6 @@ PoundLoop:
 				End Try
 			Next
 
-			Dim int As Integer
 
 			If TaskEntry.Contains("#TaskEdges") Then
 				Do
@@ -16021,6 +16147,7 @@ PoundLoop:
 				Loop Until Not TaskEntry.Contains("#TaskCBTTime")
 			End If
 
+
 			TaskEntry = TaskEntry.Replace("<font color=""red"">", "")
 			TaskEntry = TaskEntry.Replace("</font>", "")
 			TaskEntry = TaskEntry.Replace("#Null", "")
@@ -16030,6 +16157,7 @@ PoundLoop:
 			Do
 				LoopBuffer += 1
 				If LoopBuffer > 4 Then Exit Do
+				TaskEntry = SysKeywordClean(TaskEntry)
 				TaskEntry = PoundClean(TaskEntry)
 			Loop Until Not TaskEntry.Contains("#") And Not TaskEntry.Contains("@RT(") And Not TaskEntry.Contains("@RandomText(")
 
