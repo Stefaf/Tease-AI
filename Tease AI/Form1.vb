@@ -24,7 +24,7 @@ Public Class Form1
 	Friend Shared ReadOnly pathImageErrorNoLocalImages As String = Application.StartupPath & "\Images\System\NoLocalImagesFound.jpg"
 
 	Friend Shared ReadOnly SavedSessionDefaultPath As String = Application.StartupPath & "\System\SavedState.save"
-#End Region	' File Constants.
+#End Region   ' File Constants.
 
 	' Github Patch  Public FormLoading As Boolean
 	Friend FormLoading As Boolean = True
@@ -109,7 +109,7 @@ Public Class Form1
 			End SyncLock
 		End Get
 	End Property
-#End Region	' StrokePace
+#End Region ' StrokePace
 
 	Public synth As New SpeechSynthesizer
 	Public synth2 As New SpeechSynthesizer
@@ -286,7 +286,7 @@ retryStart:
 			FrmSplash.Show()
 
 			FrmSplash.PBSplash.Value += 1
-			FrmSplash.LBLSplash.Text = "Checking orgasm limit..."	  ' 1
+			FrmSplash.LBLSplash.Text = "Checking orgasm limit..."     ' 1
 			FrmSplash.Refresh()
 
 			If My.Settings.OrgasmLockDate = Nothing Then My.Settings.OrgasmLockDate = FormatDateTime(Now, DateFormat.ShortDate)
@@ -458,8 +458,8 @@ retryStart:
 				' If it would be true, this branch is unreachable
 				My.Settings.CBGlitterFeedScripts = False
 			ElseIf My.Settings.CBGlitterFeed = False _
-			  AndAlso My.Settings.CBGlitterFeedOff = False _
-			  AndAlso My.Settings.CBGlitterFeedScripts = False Then
+		   AndAlso My.Settings.CBGlitterFeedOff = False _
+		   AndAlso My.Settings.CBGlitterFeedScripts = False Then
 				My.Settings.CBGlitterFeedOff = True
 			End If
 
@@ -1132,11 +1132,11 @@ retryStart:
 
 			Dim b As MsgBoxResult =
 			  MessageBox.Show("An exception occurred on startup. Tease-AI is unable to work correctly until this error is fixed." &
-			   vbCrLf & vbCrLf &
-			   ex.Message &
-			   vbCrLf & vbCrLf &
-			   "Further details were written to the error log.", "Startup failed",
-			   btn, MessageBoxIcon.Hand)
+				  vbCrLf & vbCrLf &
+				  ex.Message &
+				  vbCrLf & vbCrLf &
+				  "Further details were written to the error log.", "Startup failed",
+				  btn, MessageBoxIcon.Hand)
 
 			If b = MsgBoxResult.Abort Or b = MsgBoxResult.Cancel Then
 				Process.GetCurrentProcess().Kill()
@@ -6263,7 +6263,7 @@ listLoaded:
 			If ssh.SlideshowMain.ImageList.Count <= 0 Then
 
 				MessageBox.Show(Me, "There are no images in the specified folder.", "Error!",
-				  MessageBoxButtons.OK, MessageBoxIcon.Hand)
+					 MessageBoxButtons.OK, MessageBoxIcon.Hand)
 				Exit Sub
 			Else
 				ssh.SlideshowLoaded = True
@@ -6285,8 +6285,8 @@ listLoaded:
 			'                                            All Errors
 			'▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
 			MessageBox.Show("Unable to load custom slideshow : " & vbCrLf & vbCrLf & ex.Message,
-			 "Open CustomSlideshow failed",
-			 MessageBoxButtons.OK, MessageBoxIcon.Error)
+				"Open CustomSlideshow failed",
+				MessageBoxButtons.OK, MessageBoxIcon.Error)
 		Finally
 			browsefolderButton.Enabled = True
 			nextButton.Enabled = True
@@ -6363,7 +6363,7 @@ Retry:
 		mwe.Handled = True
 	End Sub
 
-#End Region	' Images
+#End Region  ' Images
 
 #Region " VLC "
 
@@ -8351,7 +8351,7 @@ StatusUpdateEnd:
 			If StringClean.Contains("@CustomMode(") Then
 				controlCustom = GetParentheses(StringClean, "@CustomMode(")
 			End If
-		
+
 			For Each keyword As Match In mc
 				Dim doNotContinue As Boolean = False
 				'if we already checked for this vocab we avoid checking again
@@ -8382,7 +8382,6 @@ StatusUpdateEnd:
 							StringClean = StringClean.Replace(keyword.Value, lines(PoundVal))
 
 						Else
-
 							'StringClean = StringClean.Replace(keyword.Value, "<font color=""DarkOrange"">" & keyword.Value & "</font>")
 							Dim wrong As String = keyword.Value
 							wrong = wrong.Remove(0, 1)
@@ -8413,26 +8412,19 @@ StatusUpdateEnd:
 						If UCase(wrong) = "#NULL" Then
 							StringClean = StringClean.Replace(keyword.Value, "")
 						Else
-							wrong = SysKeywordClean(wrong)
-
-							If wrong.Contains("#") Then
-								wrong = wrong.Remove(0, 1)
-								wrong = "Missing Vocab: " & wrong
-								StringClean = StringClean.Replace(keyword.Value, "<font color=""red"">" & wrong & "</font>")
-								ssh.KeywordError = "<font color=""red"">" & wrong & "</font>"
-								Dim lazytext As String = "Unable to locate vocabulary file: """ & keyword.Value & """"
-								Log.WriteError(lazytext, New Exception(lazytext), "PoundClean(String)")
-							Else
-								StringClean = StringClean.Replace(keyword.Value, wrong)
-							End If
-
-
-
+							wrong = wrong.Remove(0, 1)
+							wrong = "Missing Vocab: " & wrong
+							StringClean = StringClean.Replace(keyword.Value, "<font color=""red"">" & wrong & "</font>")
+							ssh.KeywordError = "<font color=""red"">" & wrong & "</font>"
+							Dim lazytext As String = "Unable to locate vocabulary file: """ & keyword.Value & """"
+							Log.WriteError(lazytext, New Exception(lazytext), "PoundClean(String)")
 						End If
 
+
+
 					End If
-					alreadyChecked.Add(keyword.Value)
 				End If
+				alreadyChecked.Add(keyword.Value)
 
 			Next
 
@@ -8516,7 +8508,7 @@ StatusUpdateEnd:
 
 			StringClean = StringClean.Replace("@FollowUp" & FollowTemp & "(" & FollowLineTemp & ")", "")
 		End If
-		
+
 
 RinseLatherRepeat:
 		'▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
@@ -13054,7 +13046,7 @@ VTSkip:
 
 	End Sub
 
-#End Region	' WebToy
+#End Region  ' WebToy
 
 #Region "-------------------------------- Script: Flags/Dates/Variables ---------------------------------"
 
@@ -13098,7 +13090,7 @@ VTSkip:
 
 	End Function
 
-#End Region	' Script-Flags
+#End Region ' Script-Flags
 
 #Region "------------------------------------- Script-Variables -----------------------------------------"
 
@@ -13253,7 +13245,7 @@ VTSkip:
 
 	End Function
 
-#End Region	' Script-Variables
+#End Region ' Script-Variables
 
 #Region "---------------------------------------- Script-Dates ------------------------------------------"
 
@@ -13387,9 +13379,9 @@ VTSkip:
 
 	End Function
 
-#End Region	' Script-Dates
+#End Region ' Script-Dates
 
-#End Region	' Flags/Dates/Variables
+#End Region ' Flags/Dates/Variables
 
 
 
@@ -13794,45 +13786,45 @@ VTSkip:
 		' Current FilterList Begin
 		'▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
-				'For i As Integer = 0 To ListClean.Count - 1 Step ListIncrement
+		'For i As Integer = 0 To ListClean.Count - 1 Step ListIncrement
 
-				'FilterPass = True
+		'FilterPass = True
 
-				'For x As Integer = 0 To ListIncrement - 1
-				'If GetFilter(ListClean(i + x)) = False Then
-				'FilterPass = False
-				'Exit For
-				'End If
-				'Next
+		'For x As Integer = 0 To ListIncrement - 1
+		'If GetFilter(ListClean(i + x)) = False Then
+		'FilterPass = False
+		'Exit For
+		'End If
+		'Next
 
-				'If FilterPass = False Then
-				'For x As Integer = 0 To ListIncrement - 1
-				'ListClean(i + x) = ListClean(i + x) & "###-INVALID-###"
-				'Next
-				'End If
+		'If FilterPass = False Then
+		'For x As Integer = 0 To ListIncrement - 1
+		'ListClean(i + x) = ListClean(i + x) & "###-INVALID-###"
+		'Next
+		'End If
 
-				'Next
+		'Next
 
-				'For i As Integer = ListClean.Count - 1 To 0 Step -1
-				'If ListClean(i).Contains("###-INVALID-###") Then ListClean.RemoveAt(i)
-				'Next
+		'For i As Integer = ListClean.Count - 1 To 0 Step -1
+		'If ListClean(i).Contains("###-INVALID-###") Then ListClean.RemoveAt(i)
+		'Next
 
 		'▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 		' Current FilterList End
 		'▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
-				'Dim FilteredList As New List(Of String)
+		'Dim FilteredList As New List(Of String)
 
-				'For i As Integer = 0 To ListClean.Count - 1
-				'If Not ListClean(i).Contains("###-INVALID-###") Then FilteredList.Add(ListClean(i))
-				'Next
+		'For i As Integer = 0 To ListClean.Count - 1
+		'If Not ListClean(i).Contains("###-INVALID-###") Then FilteredList.Add(ListClean(i))
+		'Next
 
 #If TRACE Then
-				Trace.Unindent()
-				Trace.WriteLine("FilterList finished - Duration: " & sw.ElapsedMilliseconds & "ms")
+		Trace.Unindent()
+		Trace.WriteLine("FilterList finished - Duration: " & sw.ElapsedMilliseconds & "ms")
 #End If
-				'If ListClean.Count = 0 Then ListClean.Add("test")
-				Return ListClean
+		'If ListClean.Count = 0 Then ListClean.Add("test")
+		Return ListClean
 
 	End Function
 
@@ -14556,7 +14548,7 @@ VTSkip:
 				.Add("@ShowCaptionsImage", Not Directory.Exists(My.Settings.ICaptions) Or My.Settings.CBICaptions = False Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
 				.Add("@ShowGeneralImage", Not Directory.Exists(My.Settings.IGeneral) Or My.Settings.CBIGeneral = False Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
 				.Add("@ShowBlogImage", FrmSettings.URLFileList.CheckedItems.Count = 0 Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
-				.Add("@NewBlogImage", __ConditionDic("@ShowBlogImage"))	' duplicate Command, lets get the Value af the other one.
+				.Add("@NewBlogImage", __ConditionDic("@ShowBlogImage")) ' duplicate Command, lets get the Value af the other one.
 				.Add("@ShowLocalImage", FlagExists("SYS_NoPornAllowed") = True Or ssh.CustomSlideEnabled = True Or ssh.LockImage = True _
 	   Or (My.Settings.CBIHardcore = False And My.Settings.CBISoftcore = False And My.Settings.CBILesbian = False And My.Settings.CBIBlowjob = False _
 	 And My.Settings.CBIFemdom = False And My.Settings.CBILezdom = False And My.Settings.CBIHentai = False And My.Settings.CBIGay = False _
@@ -14856,7 +14848,7 @@ VTSkip:
 		ScrollChatDown()
 	End Sub
 
-#End Region	' Chatbox
+#End Region  ' Chatbox
 
 #Region "------------------------------------ Avoid the Edge --------------------------------------------"
 
@@ -15030,7 +15022,7 @@ VTSkip:
 
 	End Sub
 
-#End Region	' Avoid the Edge
+#End Region  ' Avoid the Edge
 
 
 
@@ -15955,7 +15947,7 @@ NoRepeatOFiles:
 
 	End Sub
 
-#End Region	' Hold the Edge
+#End Region  ' Hold the Edge
 
 	Public Sub CreateTaskLetter()
 
@@ -16153,7 +16145,7 @@ PoundLoop:
 					TaskEntry = TaskEntry.Replace("#TaskCBTTime", TConvert)
 				Loop Until Not TaskEntry.Contains("#TaskCBTTime")
 			End If
-		
+
 
 			TaskEntry = TaskEntry.Replace("<font color=""red"">", "")
 			TaskEntry = TaskEntry.Replace("</font>", "")
@@ -16605,7 +16597,7 @@ RestartFunction:
 
 	End Sub
 
-#End Region	'Domme-WMP
+#End Region  'Domme-WMP
 
 	Private Sub domAvatar_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles domAvatar.MouseEnter
 		If FrmSettings.Visible = False And FrmCardList.Visible = False Then domAvatar.Focus()
@@ -16978,7 +16970,7 @@ RestartFunction:
 
 
 
-#End Region	' MainPictureBox
+#End Region  ' MainPictureBox
 
 #Region "-------------------------------------------------- PictureStrip ------------------------------------------------------"
 
@@ -17258,9 +17250,9 @@ saveImage:
 
 	End Sub
 
-#End Region	' DommeSlideshow
+#End Region  ' DommeSlideshow
 
-#End Region	' PictureStrip
+#End Region  ' PictureStrip
 
 	Public Sub LoadDommeImageFolder()
 		'check which domme should be loaded
@@ -17775,7 +17767,7 @@ restartInstantly:
 		Me.Dispose()
 	End Sub
 
-#End Region	' File
+#End Region  ' File
 
 #Region "------------------------------------------------------ Settings ------------------------------------------------------"
 
@@ -17851,7 +17843,7 @@ restartInstantly:
 		FrmSettings.Focus()
 	End Sub
 
-#End Region	' Settings
+#End Region  ' Settings
 
 #Region "-------------------------------------------------------- APPs --------------------------------------------------------"
 
@@ -18157,7 +18149,7 @@ restartInstantly:
 
 	End Sub
 
-#End Region	' APPs
+#End Region  ' APPs
 
 #Region "-------------------------------------------------------- Games -------------------------------------------------------"
 
@@ -18196,7 +18188,7 @@ restartInstantly:
 		FrmCardList.Focus()
 	End Sub
 
-#End Region	' Games
+#End Region  ' Games
 
 #Region "----------------------------------------------------- Interface ------------------------------------------------------"
 
@@ -18370,7 +18362,7 @@ restartInstantly:
 		Me.Top = WA.Location.Y + (WA.Height - Me.Height) / 2
 	End Sub
 
-#End Region	' Interface
+#End Region  ' Interface
 
 #Region "------------------------------------------------------- Tools --------------------------------------------------------"
 
@@ -18388,7 +18380,7 @@ restartInstantly:
 		Form8.Show()
 	End Sub
 
-#End Region	' Tools
+#End Region  ' Tools
 
 #Region "------------------------------------------------------ Milovana ------------------------------------------------------"
 
@@ -18412,7 +18404,7 @@ restartInstantly:
 		Process.Start("https://milovana.com/forum/")
 	End Sub
 
-#End Region	' Milovana
+#End Region  ' Milovana
 
 	Private Sub StartTimer1ToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles StartTimer1ToolStripMenuItem.Click
 		Timer1.Start()
@@ -18465,7 +18457,7 @@ restartInstantly:
 
 
 
-#End Region	' Menu
+#End Region  ' Menu
 
 
 
@@ -19040,7 +19032,7 @@ restartInstantly:
 		End If
 	End Sub
 
-#End Region	' Regular Buttons
+#End Region  ' Regular Buttons
 
 
 	Public Function AddDommeTag(ByVal AddDomTag As String, ByVal AddCustomDomTag As String)
@@ -19475,7 +19467,7 @@ restartInstantly:
 	End Sub
 
 
-#End Region	' DommeTag APP
+#End Region  ' DommeTag APP
 
 #Region "------------------------------------------------------ Lazy-Sub ------------------------------------------------------"
 
@@ -19881,7 +19873,7 @@ restartInstantly:
 
 	End Sub
 
-#End Region	' Lazy-Sub
+#End Region  ' Lazy-Sub
 
 #Region "-------------------------------------------------- Randomizer-App ----------------------------------------------------"
 
@@ -20443,7 +20435,7 @@ restartInstantly:
 		End If
 	End Sub
 
-#End Region	' Vital Sub
+#End Region  ' Vital Sub
 
 	Public Sub MetronomeTick()
 		'×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
@@ -20558,9 +20550,9 @@ playLoop:
 		My.Settings.MetroOn = CBMetronome.Checked
 	End Sub
 
-#End Region	' Metronome App
+#End Region  ' Metronome App
 
-#End Region	' Apps
+#End Region  ' Apps
 
 	Private Sub VideoTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VideoTimer.Tick
 
