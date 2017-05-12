@@ -60,6 +60,15 @@ Public Class subAnswers
 	End Sub
 
 	Public Function triggerWord(chatstring As String) As String
+		'we first order the list based on lenght of the answer option (and if equal lenght, by the order in which they are in the answer list)
+		Dim sorted = answerList.OrderByDescending(Function(x) x.Length).ThenBy(Function(x) answerList.IndexOf(x)).ToArray
+
+		'we then check only the answers with more than 1 word to see if the chat strings contain any of them
+		For i As Integer = 0 To sorted.Count - 1
+			If InStr(sorted(i), " ") > 0 Then If chatstring.Contains(sorted(i)) Then Return sorted(i)
+		Next
+
+		'if all multiple words answers didn't return an answer, we check for the single words in the chat to see if any of them matches
 		Dim singleWords() = ssh.obtainSplitParts(chatstring, True)
 		For i As Integer = 0 To singleWords.Count - 1
 			For n As Integer = 0 To answerList.Count - 1
