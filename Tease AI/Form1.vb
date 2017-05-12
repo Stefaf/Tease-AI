@@ -8425,7 +8425,6 @@ StatusUpdateEnd:
 					End If
 				End If
 				alreadyChecked.Add(keyword.Value)
-				End If
 
 			Next
 
