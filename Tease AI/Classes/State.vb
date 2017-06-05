@@ -108,6 +108,7 @@ Public Class SessionState
 	Public Property TaskText As String
 	Public Property TaskTextDir As String
 
+	Public Property tempResponseLine As Integer
 	Public Property nameErrors As Integer = 0
 	Public Property wrongAttempt As Boolean
 
@@ -349,8 +350,7 @@ Public Class SessionState
 	<Category("Bookmark")> Public Property BookmarkLinkFile As String
 	<Category("Bookmark")> Public Property BookmarkLinkLine As Integer
 
-	Public Property WaitTick As Integer
-
+	Public Property WaitTick As Integer = -1
 
 
 
@@ -583,7 +583,8 @@ Public Class SessionState
 	Public Property SecondSession As Boolean
 
 	Public Property checkAnswers As subAnswers
-
+	Public Property addAnswerList As Boolean
+	Public Property addResponseList As Boolean
 
     ''' <summary>
     ''' Set to true if the sub is on the edge and the domme had decided to not to stop stroking.
@@ -709,7 +710,6 @@ Public Class SessionState
 
 	<NonSerialized> <OptionalField> Friend Files As New FileClass(Me)
 	<NonSerialized> <OptionalField> Friend Folders As New FoldersClass(Me)
-
 	<NonSerialized> Dim ActivationForm As Form1
 
 #Region "------------------------------------- Constructors----------------------------------------------"
@@ -897,9 +897,6 @@ Public Class SessionState
 			AvoidTheEdgeResume_enabled = .AvoidTheEdgeResume.Enabled
 			AvoidTheEdgeTaunts_enabled = .AvoidTheEdgeTaunts.Enabled
 			CensorshipTimer_enabled = .CensorshipTimer.Enabled
-			Contact1Timer_enabled = .Contact1Timer.Enabled
-			Contact2Timer_enabled = .Contact2Timer.Enabled
-			Contact3Timer_enabled = .Contact3Timer.Enabled
 			CustomSlideshowTimer_enabled = .CustomSlideshowTimer.Enabled
 			EdgeCountTimer_enabled = .EdgeCountTimer.Enabled
 			EdgeTauntTimer_enabled = .EdgeTauntTimer.Enabled
@@ -929,9 +926,6 @@ Public Class SessionState
 			AvoidTheEdgeResume_Interval = .AvoidTheEdgeResume.Interval
 			AvoidTheEdgeTaunts_Interval = .AvoidTheEdgeTaunts.Interval
 			CensorshipTimer_Interval = .CensorshipTimer.Interval
-			Contact1Timer_Interval = .Contact1Timer.Interval
-			Contact2Timer_Interval = .Contact2Timer.Interval
-			Contact3Timer_Interval = .Contact3Timer.Interval
 			CustomSlideshowTimer_Interval = .CustomSlideshowTimer.Interval
 			EdgeCountTimer_Interval = .EdgeCountTimer.Interval
 			EdgeTauntTimer_Interval = .EdgeTauntTimer.Interval
@@ -1037,9 +1031,6 @@ Public Class SessionState
 			.AvoidTheEdgeResume.Enabled = False
 			.AvoidTheEdgeTaunts.Enabled = False
 			.CensorshipTimer.Enabled = False
-			.Contact1Timer.Enabled = False
-			.Contact2Timer.Enabled = False
-			.Contact3Timer.Enabled = False
 			.CustomSlideshowTimer.Enabled = False
 			.EdgeCountTimer.Enabled = False
 			.EdgeTauntTimer.Enabled = False
@@ -1195,9 +1186,6 @@ Public Class SessionState
 			.AvoidTheEdgeResume.Interval = AvoidTheEdgeResume_Interval
 			.AvoidTheEdgeTaunts.Interval = AvoidTheEdgeTaunts_Interval
 			.CensorshipTimer.Interval = CensorshipTimer_Interval
-			.Contact1Timer.Interval = Contact1Timer_Interval
-			.Contact2Timer.Interval = Contact2Timer_Interval
-			.Contact3Timer.Interval = Contact3Timer_Interval
 			.CustomSlideshowTimer.Interval = CustomSlideshowTimer_Interval
 			.EdgeCountTimer.Interval = EdgeCountTimer_Interval
 			.EdgeTauntTimer.Interval = EdgeTauntTimer_Interval
@@ -1228,9 +1216,6 @@ Public Class SessionState
 			.AvoidTheEdgeResume.Enabled = AvoidTheEdgeResume_enabled
 			.AvoidTheEdgeTaunts.Enabled = AvoidTheEdgeTaunts_enabled
 			.CensorshipTimer.Enabled = CensorshipTimer_enabled
-			.Contact1Timer.Enabled = Contact1Timer_enabled
-			.Contact2Timer.Enabled = Contact2Timer_enabled
-			.Contact3Timer.Enabled = Contact3Timer_enabled
 			.CustomSlideshowTimer.Enabled = CustomSlideshowTimer_enabled
 			.EdgeCountTimer.Enabled = EdgeCountTimer_enabled
 			.EdgeTauntTimer.Enabled = EdgeTauntTimer_enabled
