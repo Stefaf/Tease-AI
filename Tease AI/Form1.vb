@@ -458,8 +458,8 @@ retryStart:
 				' If it would be true, this branch is unreachable
 				My.Settings.CBGlitterFeedScripts = False
 			ElseIf My.Settings.CBGlitterFeed = False _
-		   AndAlso My.Settings.CBGlitterFeedOff = False _
-		   AndAlso My.Settings.CBGlitterFeedScripts = False Then
+			  AndAlso My.Settings.CBGlitterFeedOff = False _
+			  AndAlso My.Settings.CBGlitterFeedScripts = False Then
 				My.Settings.CBGlitterFeedOff = True
 			End If
 
@@ -1132,11 +1132,11 @@ retryStart:
 
 			Dim b As MsgBoxResult =
 			  MessageBox.Show("An exception occurred on startup. Tease-AI is unable to work correctly until this error is fixed." &
-				  vbCrLf & vbCrLf &
-				  ex.Message &
-				  vbCrLf & vbCrLf &
-				  "Further details were written to the error log.", "Startup failed",
-				  btn, MessageBoxIcon.Hand)
+			   vbCrLf & vbCrLf &
+			   ex.Message &
+			   vbCrLf & vbCrLf &
+			   "Further details were written to the error log.", "Startup failed",
+			   btn, MessageBoxIcon.Hand)
 
 			If b = MsgBoxResult.Abort Or b = MsgBoxResult.Cancel Then
 				Process.GetCurrentProcess().Kill()
@@ -1522,7 +1522,7 @@ retryStart:
 
 				' Lock Orgasm Chances if setting is activated. 
 				If My.Settings.LockOrgasmChances Then _
-							 FrmSettings.LockOrgasmChances(True)
+				 FrmSettings.LockOrgasmChances(True)
 
 				If ssh.PlaylistFile.Count = 0 Then GoTo NoPlaylistStartFile
 
@@ -1815,8 +1815,10 @@ WritingTaskLine:
 			EdgeString = EdgeString.Replace(".", "")
 			EdgeString = EdgeString.Replace(",", "")
 			EdgeString = EdgeString.Replace("!", "")
-			Debug.Print("UCase(EdgeString)  = " & UCase(EdgeString))
-			Debug.Print("EdgeCheck  = " & UCase(EdgeCheck))
+			EdgeCheck = EdgeCheck.Replace("'", "")
+			EdgeCheck = EdgeCheck.Replace(".", "")
+			EdgeCheck = EdgeCheck.Replace(",", "")
+			EdgeCheck = EdgeCheck.Replace("!", "")
 			If UCase(EdgeCheck).Contains("DONT") Or UCase(EdgeCheck).Contains("NEVER") Or UCase(EdgeCheck).Contains("NOT") Then
 				If UCase(EdgeCheck).Contains(UCase(EdgeString)) Then
 					ssh.EdgeNOT = True
@@ -6152,7 +6154,7 @@ listLoaded:
 			If ssh.SlideshowMain.ImageList.Count <= 0 Then
 
 				MessageBox.Show(Me, "There are no images in the specified folder.", "Error!",
-					 MessageBoxButtons.OK, MessageBoxIcon.Hand)
+				  MessageBoxButtons.OK, MessageBoxIcon.Hand)
 				Exit Sub
 			Else
 				ssh.SlideshowLoaded = True
@@ -6174,8 +6176,8 @@ listLoaded:
 			'                                            All Errors
 			'▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
 			MessageBox.Show("Unable to load custom slideshow : " & vbCrLf & vbCrLf & ex.Message,
-				"Open CustomSlideshow failed",
-				MessageBoxButtons.OK, MessageBoxIcon.Error)
+			 "Open CustomSlideshow failed",
+			 MessageBoxButtons.OK, MessageBoxIcon.Error)
 		Finally
 			browsefolderButton.Enabled = True
 			nextButton.Enabled = True
@@ -6427,13 +6429,12 @@ Retry:
 			If ssh.GlitterTease = True Then tauntFile = "GlitterTaunts"
 
 			Dim TauntFiles As New List(Of TauntProcessingObject)
-			' Read all tauntfiles and get available.
-			If TauntFiles.Count = 0 Then
-				For Each str As String In myDirectory.GetFiles(ssh.Folders.Personality & "Stroke\", tauntFile & "_*.txt", SearchOption.TopDirectoryOnly)
-					Dim Taunt As New TauntProcessingObject(str, Me)
-					If Taunt.Avaialable Then TauntFiles.Add(Taunt)
-				Next
-			End If
+
+			For Each str As String In myDirectory.GetFiles(ssh.Folders.Personality & "\Stroke\", tauntFile & "_*.txt", SearchOption.TopDirectoryOnly)
+				Dim Taunt As New TauntProcessingObject(str, Me)
+				If Taunt.Avaialable Then TauntFiles.Add(Taunt)
+			Next
+
 
 			If TauntFiles.Count = 0 Then
 				' No Taunt available
@@ -6445,8 +6446,8 @@ Retry:
 				' Taunt available
 				Dim TauntToUse As TauntProcessingObject
 
-					' Increase chance of one line taunt
-					Dim OneLineChance As Integer = ssh.randomizer.Next(0, 101)
+				' Increase chance of one line taunt
+				Dim OneLineChance As Integer = ssh.randomizer.Next(0, 101)
 
 				If OneLineChance < 45 _
 				AndAlso TauntFiles.Find(Function(x) x.TauntSize = 1) IsNot Nothing Then
@@ -6458,18 +6459,18 @@ Retry:
 					TauntToUse = TauntFiles(ssh.randomizer.Next(0, TauntFiles.Count))
 				End If
 
-					ssh.TauntText = TauntToUse.FilePath
-					ssh.TauntLines = TauntToUse.Lines
-					ssh.TauntTextCount = TauntToUse.RandomTauntLine
-					ssh.TempScriptCount = TauntToUse.TauntSize - 1
+				ssh.TauntText = TauntToUse.FilePath
+				ssh.TauntLines = TauntToUse.Lines
+				ssh.TauntTextCount = TauntToUse.RandomTauntLine
+				ssh.TempScriptCount = TauntToUse.TauntSize - 1
 
-					ssh.MultiTauntPictureHold = False
+				ssh.MultiTauntPictureHold = False
 
-				End If
+			End If
 
-			Else
-				' ##################### Next Taunt line #######################
-				ssh.TauntTextCount += 1
+		Else
+			' ##################### Next Taunt line #######################
+			ssh.TauntTextCount += 1
 
 			If ssh.TempScriptCount > 0 Then ssh.MultiTauntPictureHold = True
 
@@ -7566,6 +7567,15 @@ StatusUpdateEnd:
 
 	Public Function SysKeywordClean(ByVal StringClean As String) As String
 
+		If StringClean.Contains("#Var[") Then
+			Dim VarArray As String() = StringClean.Split("]")
+			For i As Integer = 0 To VarArray.Count - 1
+				If VarArray(i).Contains("#Var[") Then
+					StringClean = StringClean.Replace("#Var[" & GetParentheses(VarArray(i) & "]", "#Var[") & "]", GetVariable(GetParentheses(VarArray(i) & "]", "#Var[")))
+				End If
+			Next
+		End If
+
 		If StringClean.Contains("@RT(") Or StringClean.Contains("@RandomText(") Then
 			Dim replace As String() = {"@RT(", "@RandomText("}
 			Dim RandArray As String() = StringClean.Split("@")
@@ -7587,7 +7597,6 @@ StatusUpdateEnd:
 				Next
 			Next
 		End If
-
 
 		If FrmSettings.CBCockToClit.Checked = True Then
 			StringClean = StringClean.Replace("#Cock", "#CockToClit")
@@ -7627,9 +7636,9 @@ StatusUpdateEnd:
 
 		StringClean = StringClean.Replace("#DomApathy", FrmSettings.NBEmpathy.Value)
 
-		StringClean = StringClean.Replace("#DomHair", FrmSettings.TBDomHairColor.Text)
+		StringClean = StringClean.Replace("#DomHairLength", LCase(FrmSettings.domhairlengthComboBox.Text))
 
-		StringClean = StringClean.Replace("#DomHairLength", FrmSettings.domhairlengthComboBox.Text)
+		StringClean = StringClean.Replace("#DomHair", FrmSettings.TBDomHairColor.Text)
 
 		StringClean = StringClean.Replace("#DomEyes", FrmSettings.TBDomEyeColor.Text)
 
@@ -7767,7 +7776,7 @@ StatusUpdateEnd:
 			Next
 		End If
 
-				If StringClean.Contains("#DateDifference(") Then
+		If StringClean.Contains("#DateDifference(") Then
 
 			Dim DateFlag As String = GetParentheses(StringClean, "#DateDifference(")
 			Dim OriginalFlag As String = DateFlag
@@ -7891,27 +7900,6 @@ StatusUpdateEnd:
 		StringClean = StringClean.Replace("#CurrentYear", Format(Now, "yyyy"))
 		StringClean = StringClean.Replace("#CurrentDate", FormatDateTime(Date.Now, DateFormat.ShortDate))
 		' StringClean = StringClean.Replace("#CurrentDate", Format(Now, "MM/dd/yyyy"))
-
-		' 
-		If StringClean.Contains("#Var[") Then
-
-			'Dim VarSplit As String() = StringClean.Split("]")
-			'For i As Integer = 0 To VarSplit.Count - 1
-			'If VarSplit(i).Contains("#Var[") Then
-			'Dim VarString As String = VarSplit(i) & "]"
-			'Dim VarFlag As String = GetParentheses(VarString, "#Var[")
-			'Debug.Print("VarFlag = " & VarFlag)
-			'Dim VarFlag2 As String = GetVariable(VarFlag)
-			'Debug.Print("VarFlag2 = " & VarFlag2)
-			' StringClean = StringClean.Replace("#Var[" & VarFlag & "]", VarFlag2)
-			'Debug.Print("Try this shit       #Var[" & VarFlag & "]")
-			'StringClean = StringClean.Replace("#Var[" & VarFlag & "]", VarFlag2)
-			'End If
-			'    Next
-
-			StringClean = StringClean.Replace("#Var[", "@ShowVar[")
-
-		End If
 
 		If StringClean.Contains("#RandomSlideshowCategory") Then
 			Dim RanCat As New List(Of String)
@@ -11381,19 +11369,19 @@ OrgasmDecided:
 				End If
 			End If
 			If ssh.NoVideo = False Then
-					ssh.TeaseVideo = True
-					If VidInt > 0 Then
-						ssh.VideoTick = VidInt
-						VideoTimer.Start()
-					End If
-				Else
-					MessageBox.Show(Me, "No videos were found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+				ssh.TeaseVideo = True
+				If VidInt > 0 Then
+					ssh.VideoTick = VidInt
+					VideoTimer.Start()
 				End If
-
-				StringClean = StringClean.Replace("@PlayVideo[" & videoFlag & "]", "")
+			Else
+				MessageBox.Show(Me, "No videos were found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
 			End If
 
-			If StringClean.Contains("@PlayAudio[") Then
+			StringClean = StringClean.Replace("@PlayVideo[" & videoFlag & "]", "")
+		End If
+
+		If StringClean.Contains("@PlayAudio[") Then
 			Dim AudioFlag As String = GetParentheses(StringClean, "@PlayAudio[")
 			' Github Patch Dim AudioClean As String = Application.StartupPath & "\Video\" & AudioFlag
 			Dim AudioClean As String
@@ -12238,7 +12226,7 @@ VTSkip:
 						CheckFlag = checkArray(0)
 						If Not Directory.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CheckFlag) Then
 							MessageBox.Show(Me, "The current script attempted to @Call from a directory that does not exist!" & Environment.NewLine & Environment.NewLine &
-			Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CheckFlag, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+							 Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CheckFlag, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 						Else
 							ssh.MultiTauntPictureHold = False
 							Dim RandomFile As New List(Of String)
@@ -12248,7 +12236,7 @@ VTSkip:
 							Next
 							If RandomFile.Count < 1 Then
 								MessageBox.Show(Me, "The current script attempted to @Call from a directory that does not contain any scripts!" & Environment.NewLine & Environment.NewLine &
-			Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CheckFlag, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+								  Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CheckFlag, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 							Else
 								GotoClear()
 								ssh.FileText = RandomFile(ssh.randomizer.Next(0, RandomFile.Count))
@@ -12483,9 +12471,9 @@ VTSkip:
 			End If
 
 			StringClean = StringClean.Replace("@SetMood(" & MoodFlag & ")", "")
-			End If
+		End If
 
-			If StringClean.Contains("@MoodUp") Then
+		If StringClean.Contains("@MoodUp") Then
 			ssh.DommeMood += 1
 			If ssh.DommeMood > 10 Then ssh.DommeMood = 10
 			StringClean = StringClean.Replace("@MoodUp", "")
@@ -13644,6 +13632,22 @@ VTSkip:
 		'		Grouped-Lines-Check-END 
 		'▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
+		Dim ControlList As New List(Of String)
+
+		For i As Integer = 0 To ListClean.Count - 1
+			If ListClean(i).Contains("@ControlFlag(") Then
+				If FlagExists(GetParentheses(ListClean(i), "@ControlFlag(")) = True Then
+					ControlList.Add(ListClean(i))
+				End If
+			End If
+		Next
+
+		If ControlList.Count > 0 Then
+			ListClean.Clear()
+			ListClean = ControlList
+		End If
+
+
 		'▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 		' NEW FilterList TEST Begin
 		'▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
@@ -13702,8 +13706,8 @@ VTSkip:
 		'Next
 
 #If TRACE Then
-		Trace.Unindent()
-		Trace.WriteLine("FilterList finished - Duration: " & sw.ElapsedMilliseconds & "ms")
+				Trace.Unindent()
+				Trace.WriteLine("FilterList finished - Duration: " & sw.ElapsedMilliseconds & "ms")
 #End If
 		'If ListClean.Count = 0 Then ListClean.Add("test")
 		Return ListClean
@@ -13870,10 +13874,14 @@ VTSkip:
 			' with "glaring".
 			'▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
 
-			If FilterString.Contains("@Flag(") Then
+			If FilterString.Contains("@Flag(") Or FilterString.Contains("@ControlFlag(") Then
 				Dim writeFlag As String
 				Dim splitFlag As String()
-				writeFlag = GetParentheses(FilterString, "@Flag(")
+				If FilterString.Contains("@Flag(") Then
+					writeFlag = GetParentheses(FilterString, "@Flag(")
+				Else
+					writeFlag = GetParentheses(FilterString, "@ControlFlag(")
+				End If
 				writeFlag = FixCommas(writeFlag)
 				splitFlag = writeFlag.Split({","}, StringSplitOptions.RemoveEmptyEntries)
 				For Each s In splitFlag
@@ -17282,7 +17290,7 @@ saveImage:
 		For Each com As String In New List(Of String) From
 		  {"@Cup(", "@AllowsOrgasm(", "@RuinsOrgasm(", "@DommeLevel(",
 		  "@ApathyLevel(", "@Month(", "@Day(", "@Flag(", "@NotFlag(",
-		  "@DayOfWeek(", "@FlagOr("}
+		  "@DayOfWeek(", "@FlagOr(", "@CheckDate(", "@ControlFlag("}
 			If CFClean.Contains(com) Then CFClean = CFClean.Replace(com & GetParentheses(CFClean, com) & ")", "")
 		Next
 
@@ -17486,7 +17494,7 @@ restartInstantly:
 				Dim fsd As New SaveFileDialog With {.Filter = "Saved Session|*" & Path.GetExtension(SavedSessionDefaultPath) & "",
 						 .InitialDirectory = Path.GetDirectoryName(SavedSessionDefaultPath),
 						 .Title = "Select a destination to safe the sessin to.",
-						 .FileName = Now.ToString("yy-MM-dd_HH-mm-ss") & "_" & dompersonalitycombobox.Text,
+						 .filename = Now.ToString("yy-MM-dd_HH-mm-ss") & "_" & dompersonalitycombobox.Text,
 						 .AddExtension = True,
 						 .CheckPathExists = True,
 						 .OverwritePrompt = True,
@@ -18372,6 +18380,12 @@ restartInstantly:
 			If DDiff > -2 And DDiff < 5 Then ssh.GeneralTime = "Morning"
 			If DDiff > 4 And DDiff < 12 Then ssh.GeneralTime = "Afternoon"
 			If DDiff > -21 And DDiff < -11 Then ssh.GeneralTime = "Afternoon"
+
+		Else
+
+			Dim SetDate As Date = FormatDateTime(FrmSettings.TimeBoxWakeUp.Value, DateFormat.LongTime)
+			My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\SYS_WakeUp", FormatDateTime(SetDate, DateFormat.LongTime), False)
+			My.Settings.WakeUp = FormatDateTime(Now, DateFormat.ShortDate) & " " & GetTime("SYS_WakeUp")
 
 		End If
 
@@ -20952,7 +20966,7 @@ playLoop:
 			Next
 
 			If VideoList.Count > 0 Then
-				DomWMP.URL = VideoList(ssh.randomizer.Next(0, VideoList.Count - 1))
+				DomWMP.URL = VideoList(ssh.randomizer.Next(0, VideoList.Count))
 				DomWMP.Visible = True
 				mainPictureBox.Visible = False
 
