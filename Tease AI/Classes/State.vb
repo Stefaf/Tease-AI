@@ -610,14 +610,14 @@ Public Class SessionState
 
 #Region "----------------------------------- Only for Serialization -------------------------------------"
 
-#Region "----------------------------------------- Form1.WMP --------------------------------------------"
+#Region "----------------------------------------- Form1.Video --------------------------------------------"
 
-	Public serialized_WMP_Visible As Boolean
-	Public serialized_WMP_URL As String
-	Public serialized_WMP_Position As Double
-	Public serialized_WMP_Playstate As Long
+    Public serialized_Video_Visible As Boolean
+    Public serialized_Video_URL As String
+    Public serialized_Video_Position As Double
+    Public serialized_Video_Playstate As Long
 
-#End Region ' Form1.WWMP
+#End Region ' Form1.Video
 
 #Region "-----------------------------------------Form1.Timers-------------------------------------------"
 
@@ -655,7 +655,7 @@ Public Class SessionState
 	Public UpdatesTimer_enabled As Boolean = True
 	Public VideoTauntTimer_enabled As Boolean = False
 	Public WaitTimer_enabled As Boolean = False
-	Public WMPTimer_enabled As Boolean = True
+    Public VideoTimer_enabled As Boolean = True
 
     '===============================================================================
     '							Timer intervals
@@ -691,7 +691,7 @@ Public Class SessionState
 	Public UpdatesTimer_Interval As Integer = 1000
 	Public VideoTauntTimer_Interval As Integer = 1000
 	Public WaitTimer_Interval As Integer = 1000
-	Public WMPTimer_Interval As Integer = 1000
+    Public VideoTimer_Interval As Integer = 1000
 
 #End Region ' Form1.Timers
 
@@ -921,7 +921,7 @@ Public Class SessionState
 			UpdatesTimer_enabled = .UpdatesTimer.Enabled
 			VideoTauntTimer_enabled = .VideoTauntTimer.Enabled
 			WaitTimer_enabled = .WaitTimer.Enabled
-			WMPTimer_enabled = .WMPTimer.Enabled
+            VideoTimer_enabled = .VideoTimer2.Enabled
             '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
             '								Get Timer Intervals
             '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
@@ -953,15 +953,15 @@ Public Class SessionState
 			UpdatesTimer_Interval = .UpdatesTimer.Interval
 			VideoTauntTimer_Interval = .VideoTauntTimer.Interval
 			WaitTimer_Interval = .WaitTimer.Interval
-			WMPTimer_Interval = .WMPTimer.Interval
+            VideoTimer_Interval = .VideoTimer2.Interval
 
             '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-            '								Get WMP-Data
+            '								Get Video-Data
             '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-            serialized_WMP_Visible = .DomWMP.Visible
-			serialized_WMP_URL = .DomWMP.URL
-			serialized_WMP_Playstate = .DomWMP.playState
-			serialized_WMP_Position = .DomWMP.Ctlcontrols.currentPosition
+            serialized_Video_Visible = .DomVideo.Visible
+            serialized_Video_URL = .DomVideo.MediaURI
+            serialized_Video_Playstate = .DomVideo.State
+            serialized_Video_Position = .DomVideo.CurrentMediaCurrentPosition
 
             '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
             '								Get Flags
@@ -1061,7 +1061,7 @@ Public Class SessionState
 			.UpdatesTimer.Enabled = False
 			.VideoTauntTimer.Enabled = False
 			.WaitTimer.Enabled = False
-			.WMPTimer.Enabled = False
+            .VideoTimer2.Enabled = False
 
 			If .ssh IsNot Nothing Then .ssh.Dispose()
 			.ssh = Me
@@ -1141,7 +1141,7 @@ Public Class SessionState
 			If currentlyPresentContacts.Count = 0 Then currentlyPresentContacts.Add(SlideshowMain.TypeName)
 
             '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-            '							Set Picturebox & WMP
+            '							Set Picturebox & Video
             '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
             If isURL(ImageLocation) Then
 				.ShowImage(ImageLocation, True)
@@ -1153,25 +1153,25 @@ Public Class SessionState
 				.ClearMainPictureBox()
 			End If
 
-			.mainPictureBox.Visible = Not serialized_WMP_Visible
-			.DomWMP.Visible = serialized_WMP_Visible
-			.DomWMP.URL = serialized_WMP_URL
-			.DomWMP.Ctlcontrols.currentPosition = serialized_WMP_Position
+            .mainPictureBox.Visible = Not serialized_Video_Visible
+            .DomVideo.Visible = serialized_Video_Visible
+            .DomVideo.MediaURI = serialized_Video_URL
+            .DomVideo.CurrentMediaCurrentPosition = serialized_Video_Position
 
-			If serialized_WMP_Playstate <= 1 Then
-				.DomWMP.Ctlcontrols.stop()
-			ElseIf serialized_WMP_Playstate = 2 Then
-				Dim sw As New Stopwatch
-				sw.Start()
+            If serialized_Video_Playstate <= VideoHandler.PlayState.Stopped Then
+                .DomVideo.StopIt()
+            ElseIf serialized_Video_Playstate = VideoHandler.PlayState.Paused Then
+                Dim sw As New Stopwatch
+                sw.Start()
 
-				Do Until .DomWMP.playState = WMPPlayState.wmppsPlaying Or sw.ElapsedMilliseconds > 5000
-					Application.DoEvents()
-				Loop
+                Do Until .DomVideo.State = VideoHandler.PlayState.Playing Or sw.ElapsedMilliseconds > 5000
+                    Application.DoEvents()
+                Loop
 
-				.DomWMP.Ctlcontrols.pause()
-			ElseIf serialized_WMP_Playstate = 3 Then
-				.DomWMP.Ctlcontrols.play()
-			End If
+                .DomVideo.PauseIt()
+            ElseIf serialized_Video_Playstate = VideoHandler.PlayState.Playing Then
+                .DomVideo.PlayIt()
+            End If
 
             ' Hide Cencorshipbar , if no game is running 
             If CensorshipGame = True Or CensorshipTimer_enabled = False Then .CensorshipBar.Visible = False
@@ -1219,7 +1219,7 @@ Public Class SessionState
 			.UpdatesTimer.Interval = UpdatesTimer_Interval
 			.VideoTauntTimer.Interval = VideoTauntTimer_Interval
 			.WaitTimer.Interval = WaitTimer_Interval
-			.WMPTimer.Interval = WMPTimer_Interval
+            .VideoTimer2.Interval = VideoTimer_Interval
 
             '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
             '							Set Timer EnableStates
@@ -1252,7 +1252,7 @@ Public Class SessionState
 			.UpdatesTimer.Enabled = UpdatesTimer_enabled
 			.VideoTauntTimer.Enabled = VideoTauntTimer_enabled
 			.WaitTimer.Enabled = WaitTimer_enabled
-			.WMPTimer.Enabled = WMPTimer_enabled
+            .VideoTimer2.Enabled = VideoTimer_enabled
 
 
 		End With

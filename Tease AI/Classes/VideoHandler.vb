@@ -1,5 +1,5 @@
 ﻿
-'#Const WMP = 1
+#Const WMP = 1
 #Const VLC = 1
 
 Public Module VideoHandlerCreator
@@ -226,7 +226,7 @@ Public Class WMPVideoHandler
     '    wmppsLast = 12
     'End Enum
 
-    Dim WMPPlayer As AxWMPLib.AxWindowsMediaPlayer
+    Dim WithEvents WMPPlayer As AxWMPLib.AxWindowsMediaPlayer
     'Dim controlBar As Boolean
 
     Private Sub RaiseChangeState(Sender As Object, e As AxWMPLib._WMPOCXEvents_PlayStateChangeEvent) Handles WMPPlayer.PlayStateChange
@@ -326,8 +326,14 @@ Public Class WMPVideoHandler
             Return WMPPlayer.playState
         End Get
         Set(value As PlayState)
-            '[JT-TODO: handle enum conversion here]
-            WMPPlayer.playState = value
+            Select Case value
+                Case PlayState.Playing
+                    WMPPlayer.Ctlcontrols.play()
+                Case PlayState.Paused
+                    WMPPlayer.Ctlcontrols.pause()
+                Case PlayState.Stopped
+                    WMPPlayer.Ctlcontrols.stop()
+            End Select
         End Set
     End Property
 

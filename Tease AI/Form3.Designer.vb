@@ -26,7 +26,7 @@ Partial Class FrmCardList
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmCardList))
 		Me.TCGames = New System.Windows.Forms.TabControl()
 		Me.TabPage3 = New System.Windows.Forms.TabPage()
-		Me.GameWMP = New AxWMPLib.AxWindowsMediaPlayer()
+        Me.GameVideo = VideoHandlerCreator.CreateHandler()
 		Me.Panel32 = New System.Windows.Forms.Panel()
 		Me.Panel33 = New System.Windows.Forms.Panel()
 		Me.SlotLeft1 = New System.Windows.Forms.PictureBox()
@@ -359,7 +359,7 @@ Partial Class FrmCardList
 		Me.TimerRiskyFlash = New Tease_AI.teaseAI_Timer()
 		Me.TCGames.SuspendLayout()
 		Me.TabPage3.SuspendLayout()
-		CType(Me.GameWMP, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.GameVideo, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.Panel32.SuspendLayout()
 		Me.Panel33.SuspendLayout()
 		CType(Me.SlotLeft1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -512,7 +512,7 @@ Partial Class FrmCardList
 		'
 		Me.TabPage3.BackColor = System.Drawing.Color.Navy
 		Me.TabPage3.BackgroundImage = CType(resources.GetObject("TabPage3.BackgroundImage"), System.Drawing.Image)
-		Me.TabPage3.Controls.Add(Me.GameWMP)
+        Me.TabPage3.Controls.Add(Me.GameVideo.Form)
 		Me.TabPage3.Controls.Add(Me.Panel32)
 		Me.TabPage3.Controls.Add(Me.Panel44)
 		Me.TabPage3.Controls.Add(Me.Panel34)
@@ -527,16 +527,16 @@ Partial Class FrmCardList
 		Me.TabPage3.TabIndex = 2
 		Me.TabPage3.Text = "Slots"
 		'
-		'GameWMP
+        'GameVideo
 		'
-		Me.GameWMP.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
-		Me.GameWMP.Enabled = True
-		Me.GameWMP.Location = New System.Drawing.Point(880, 60)
-		Me.GameWMP.Name = "GameWMP"
-		Me.GameWMP.OcxState = CType(resources.GetObject("GameWMP.OcxState"), System.Windows.Forms.AxHost.State)
-		Me.GameWMP.Size = New System.Drawing.Size(20, 20)
-		Me.GameWMP.TabIndex = 97
-		Me.GameWMP.Visible = False
+        Me.GameVideo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.GameVideo.Enabled = True
+        Me.GameVideo.Location = New System.Drawing.Point(880, 60)
+        Me.GameVideo.Name = "GameVideo"
+        Me.GameVideo.State = resources.GetObject("GameVideo.State")
+        Me.GameVideo.Size = New System.Drawing.Size(20, 20)
+        Me.GameVideo.TabIndex = 97
+        Me.GameVideo.Visible = False
 		'
 		'Panel32
 		'
@@ -4364,7 +4364,7 @@ Partial Class FrmCardList
 		Me.Text = "Games"
 		Me.TCGames.ResumeLayout(False)
 		Me.TabPage3.ResumeLayout(False)
-		CType(Me.GameWMP, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.GameVideo, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.Panel32.ResumeLayout(False)
 		Me.Panel33.ResumeLayout(False)
 		CType(Me.SlotLeft1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4666,7 +4666,7 @@ Partial Class FrmCardList
 	Friend WithEvents BoosterTimer As System.Windows.Forms.Timer
 	Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
 	Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
-	Friend WithEvents GameWMP As AxWMPLib.AxWindowsMediaPlayer
+    Friend WithEvents GameVideo As VideoHandler
 	Friend WithEvents ExchangeFrame As System.Windows.Forms.Panel
 	Friend WithEvents ExchangeCard As System.Windows.Forms.PictureBox
 	Friend WithEvents Label4 As System.Windows.Forms.Label

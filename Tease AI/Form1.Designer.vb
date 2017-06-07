@@ -29,7 +29,7 @@ Partial Class Form1
 		Me.mainPictureBox = New System.Windows.Forms.PictureBox()
 		Me.domAvatar = New System.Windows.Forms.PictureBox()
 		Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-		Me.DomWMP = New AxWMPLib.AxWindowsMediaPlayer()
+        Me.DomVideo = VideoHandlerCreator.CreateHandler()
 		Me.ProgressBar_BGW_Images = New System.Windows.Forms.ProgressBar()
 		Me.CensorshipBar = New System.Windows.Forms.Panel()
 		Me.LBLImageInfo = New System.Windows.Forms.Label()
@@ -403,7 +403,7 @@ Partial Class Form1
 		Me.Contact2Timer = New Tease_AI.teaseAI_Timer()
 		Me.Contact3Timer = New Tease_AI.teaseAI_Timer()
 		Me.UpdateStageTimer = New Tease_AI.teaseAI_Timer()
-		Me.WMPTimer = New Tease_AI.teaseAI_Timer()
+        Me.VideoTimer2 = New Tease_AI.teaseAI_Timer()
 		Me.DommeTimer = New Tease_AI.teaseAI_Timer()
 		Me.TeaseAIClock = New Tease_AI.teaseAI_Timer()
 		Me.TimeoutTimer = New Tease_AI.teaseAI_Timer()
@@ -415,7 +415,7 @@ Partial Class Form1
 		Me.SplitContainer1.Panel1.SuspendLayout()
 		Me.SplitContainer1.Panel2.SuspendLayout()
 		Me.SplitContainer1.SuspendLayout()
-		CType(Me.DomWMP, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DomVideo, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.PnlChatTextLayout.SuspendLayout()
 		Me.PNLMediaBar.SuspendLayout()
 		Me.PnlChatBoxLayout.SuspendLayout()
@@ -528,7 +528,7 @@ Partial Class Form1
 		'SplitContainer1.Panel1
 		'
 		Me.SplitContainer1.Panel1.BackColor = System.Drawing.Color.Transparent
-		Me.SplitContainer1.Panel1.Controls.Add(Me.DomWMP)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.DomVideo.Form)
 		Me.SplitContainer1.Panel1.Controls.Add(Me.ProgressBar_BGW_Images)
 		Me.SplitContainer1.Panel1.Controls.Add(Me.CensorshipBar)
 		Me.SplitContainer1.Panel1.Controls.Add(Me.LBLImageInfo)
@@ -546,20 +546,20 @@ Partial Class Form1
 		Me.SplitContainer1.SplitterWidth = 10
 		Me.SplitContainer1.TabIndex = 136
 		'
-		'DomWMP
+        'DomVideo
 		'
-		'Me.DomWMP.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        'Me.DomVideo.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
 		'	Or System.Windows.Forms.AnchorStyles.Left) _
 		'	Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-		Me.DomWMP.Dock = System.Windows.Forms.DockStyle.Fill
-		Me.DomWMP.Enabled = True
-		Me.DomWMP.Location = New System.Drawing.Point(0, 0)
-		Me.DomWMP.Name = "DomWMP"
-		Me.DomWMP.OcxState = CType(resources.GetObject("DomWMP.OcxState"), System.Windows.Forms.AxHost.State)
-		'Me.DomWMP.Size = New System.Drawing.Size(1398, 698)
-		Me.DomWMP.Size = New System.Drawing.Size(1398, 536)
-		Me.DomWMP.TabIndex = 96
-		Me.DomWMP.Visible = False
+        Me.DomVideo.Form.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DomVideo.Enabled = True
+        Me.DomVideo.Location = New System.Drawing.Point(0, 0)
+        Me.DomVideo.Name = "DomVideo"
+        Me.DomVideo.State = resources.GetObject("DomVideo.State")
+        'Me.DomVideo.Size = New System.Drawing.Size(1398, 698)
+        Me.DomVideo.Size = New System.Drawing.Size(1398, 536)
+        Me.DomVideo.TabIndex = 96
+        Me.DomVideo.Visible = False
 		'
 		'ProgressBar_BGW_Images
 		'
@@ -4351,9 +4351,9 @@ Partial Class Form1
 		'
 		Me.UpdateStageTimer.Interval = 1000
 		'
-		'WMPTimer
+        'VideoTimer2
 		'
-		Me.WMPTimer.Interval = 1000
+        Me.VideoTimer2.Interval = 1000
 		'
 		'DommeTimer
 		'
@@ -4400,7 +4400,7 @@ Partial Class Form1
 		Me.SplitContainer1.Panel2.ResumeLayout(False)
 		CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.SplitContainer1.ResumeLayout(False)
-		CType(Me.DomWMP, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DomVideo, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.PnlChatTextLayout.ResumeLayout(False)
 		Me.PNLMediaBar.ResumeLayout(False)
 		Me.PnlChatBoxLayout.ResumeLayout(False)
@@ -4510,7 +4510,7 @@ Partial Class Form1
 	Friend WithEvents TnASlides As Tease_AI.teaseAI_Timer
 	Friend WithEvents ImageFolderComboBox As System.Windows.Forms.ComboBox
 	Friend WithEvents LBLImageInfo As System.Windows.Forms.Label
-	Friend WithEvents DomWMP As AxWMPLib.AxWindowsMediaPlayer
+    Friend WithEvents DomVideo As VideoHandler
 	Friend WithEvents WaitTimer As Tease_AI.teaseAI_Timer
 	Friend WithEvents StupidTimer As Tease_AI.teaseAI_Timer
 	Friend WithEvents VideoTauntTimer As Tease_AI.teaseAI_Timer
@@ -4529,7 +4529,7 @@ Partial Class Form1
 	Friend WithEvents Contact2Timer As Tease_AI.teaseAI_Timer
 	Friend WithEvents Contact3Timer As Tease_AI.teaseAI_Timer
 	Friend WithEvents UpdateStageTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents WMPTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents VideoTimer2 As Tease_AI.teaseAI_Timer
 	Friend WithEvents TeaseAINotify As System.Windows.Forms.NotifyIcon
 	Friend WithEvents TeaseAIMenu As System.Windows.Forms.ContextMenuStrip
 	Friend WithEvents GamesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem

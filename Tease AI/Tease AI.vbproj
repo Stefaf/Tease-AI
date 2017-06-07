@@ -76,6 +76,20 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AxInterop.AXVLC">
+      <HintPath>..\DLL\AxInterop.AXVLC.dll</HintPath>
+    </Reference>
+    <Reference Include="AxInterop.WMPLib">
+      <HintPath>..\DLL\AxInterop.WMPLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.AXVLC">
+      <HintPath>..\DLL\Interop.AXVLC.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.WMPLib">
+      <HintPath>..\DLL\Interop.WMPLib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Drawing" />
@@ -124,6 +138,7 @@
     <Compile Include="Classes\teaseAI_Timer.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Classes\VideoHandler.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
