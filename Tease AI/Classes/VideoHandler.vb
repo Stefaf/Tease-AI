@@ -1,17 +1,43 @@
-﻿
-#Const WMP = 1
-#Const VLC = 1
+﻿'===========================================================================================
+'
+'                                   VideoHandler-Class
+'
+'
+' This File contains a Class to store all video specific call.
+'
+' You could compile Tease-AI for only WMP or VLC by commenting USEWMP or USEVLC declaration.
+' Note: if neither USEWMP nor USEVLC are set, there will be no video at all.
+'
+' When launching Tease-AI, use -VLC or -WMP argument to chose. If both are set, VLC will
+' be prefered. If one is set but Tease-AI was not compiled for it, it will be ignored.
+' If no argument is set, there will be no video.
+'
+' The Idea is to compile for both and then make two shortcut :
+' 1 - named TeaseAIWithWMP launching "Tease AI.exe -WMP"
+' 2 - named TeaseAIWithVLC launching "Tease AI.exe -VLC"
+'
+' We could also force one by default in the VideoHandlerCreator if needed.
+' 
+' Note: Adding mediaEnded in state should be considered.
+'===========================================================================================
 
+'Choose what to use at compilation time
+#Const USEWMP = 1
+#Const USEVLC = 1
+
+''' <summary>
+''' Class to create the VideoHandler using VLC, WMP or nothing.
+''' </summary>
 Public Module VideoHandlerCreator
     Function CreateHandler() As VideoHandler
         If My.Application.CommandLineArgs.Contains("-VLC") Then
-#If VLC Then
+#If USEVLC Then
             Return New VLCVideoHandler
 #Else
             Throw New ApplicationException("Trying to use VLC but this executable currently not support it!")
 #End If
         ElseIf My.Application.CommandLineArgs.Contains("-WMP") Then
-#If WMP Then
+#If USEWMP Then
             Return New WMPVideoHandler
 #Else
             Throw New ApplicationException("Trying to use WMP but this executable currently not support it!")
@@ -23,7 +49,11 @@ Public Module VideoHandlerCreator
 
 End Module
 
-
+''' <summary>
+''' Base class to to be inherited with specific VLC or WMP feature call.
+''' It is used to uniformize all call amongst the remainding of the code.
+''' Every method should thus pass by this class and be overrided with specifics.
+''' </summary>
 Public Class VideoHandler
     'Inherits System.Windows.Forms.Control
     Implements System.ComponentModel.ISupportInitialize
@@ -206,10 +236,15 @@ Public Class VideoHandler
     End Sub
 End Class
 
-#If WMP Then
+
+#If USEWMP Then
+''' <summary>
+''' Class implementing WMP specificities...
+''' </summary>
 Public Class WMPVideoHandler
     Inherits VideoHandler
 
+    'Here for reference: same encoding was done with VideoHandler.PlayState for first items
     'Enum WMPPlayState
     '    wmppsUndefined = 0
     '    wmppsStopped = 1
@@ -288,7 +323,7 @@ Public Class WMPVideoHandler
     End Property
 
     Public Overrides Sub ClearPlayList()
-        WMPPlayer.currentPlaylist.Clear()
+        WMPPlayer.currentPlaylist.clear()
     End Sub
 
     Public Overrides WriteOnly Property Looped As Boolean
@@ -317,7 +352,7 @@ Public Class WMPVideoHandler
 
     Public Overrides WriteOnly Property StretchToFit As Boolean
         Set(value As Boolean)
-            WMPPlayer.StretchToFit = value
+            WMPPlayer.stretchToFit = value
         End Set
     End Property
 
@@ -359,7 +394,10 @@ Public Class WMPVideoHandler
 End Class
 #End If
 
-#If VLC Then
+#If USEVLC Then
+''' <summary>
+''' Class implementing VLC specificities...
+''' </summary>
 Public Class VLCVideoHandler
     Inherits VideoHandler
 
