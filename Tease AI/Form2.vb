@@ -9960,7 +9960,7 @@ checkFolder:
 
 	Private Sub CBMuteMedia_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CBMuteMedia.CheckedChanged
 
-		Form1.DomWMP.settings.mute = CBMuteMedia.Checked
+        Form1.DomVideo.Muted = CBMuteMedia.Checked
 
 	End Sub
 

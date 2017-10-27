@@ -1143,9 +1143,9 @@ Card9:
 			DealMatchCards()
 
 			If FrmSettings.CBGameSounds.Checked = True And File.Exists(Application.StartupPath & "\Audio\System\CardShuffle.wav") Then
-				GameWMP.settings.setMode("loop", False)
-				GameWMP.settings.volume = 20
-				GameWMP.URL = Application.StartupPath & "\Audio\System\CardShuffle.wav"
+                GameVideo.Looped = False
+                GameVideo.Volume = 20
+                GameVideo.MediaURI = Application.StartupPath & "\Audio\System\CardShuffle.wav"
 			End If
 			'My.Computer.Audio.Play(Application.StartupPath & "\Audio\System\CardShuffle.wav")
 
@@ -1363,11 +1363,9 @@ Card9:
 
 			If FrmSettings.CBGameSounds.Checked = True And File.Exists(Application.StartupPath & "\Audio\System\NoPayout.wav") Then
 
-
-				GameWMP.settings.setMode("loop", False)
-				GameWMP.settings.volume = 20
-				GameWMP.URL = Application.StartupPath & "\Audio\System\NoPayout.wav"
-
+                GameVideo.Looped = False
+                GameVideo.Volume = 20
+                GameVideo.MediaURI = Application.StartupPath & "\Audio\System\NoPayout.wav"
 
 			End If
 			'My.Computer.Audio.Play(Application.StartupPath & "\Audio\System\NoPayout.wav")
@@ -1389,11 +1387,9 @@ Card9:
 
 			If FrmSettings.CBGameSounds.Checked = True And File.Exists(Application.StartupPath & "\Audio\System\PayoutSmall.wav") Then
 
-
-				GameWMP.settings.setMode("loop", False)
-				GameWMP.settings.volume = 20
-				GameWMP.URL = Application.StartupPath & "\Audio\System\PayoutSmall.wav"
-
+                GameVideo.Looped = False
+                GameVideo.Volume = 20
+                GameVideo.MediaURI = Application.StartupPath & "\Audio\System\PayoutSmall.wav"
 
 			End If
 
@@ -1444,9 +1440,9 @@ Card9:
 
 
 		If FrmSettings.CBGameSounds.Checked = True And File.Exists(Application.StartupPath & "\Audio\System\CardFlip.wav") Then
-			GameWMP.settings.setMode("loop", False)
-			GameWMP.settings.volume = 20
-			GameWMP.URL = Application.StartupPath & "\Audio\System\CardFlip.wav"
+            GameVideo.Looped = False
+            GameVideo.Volume = 20
+            GameVideo.MediaURI = Application.StartupPath & "\Audio\System\CardFlip.wav"
 		End If
 
 	End Sub
@@ -2163,9 +2159,9 @@ Card9:
 			' mciSendString("close myWAV", Nothing, 0, 0)
 
 			fileName1 = Application.StartupPath & "\Audio\System\Slots.wav"
-			GameWMP.settings.setMode("loop", False)
-			GameWMP.settings.volume = 20
-			GameWMP.URL = fileName1
+            GameVideo.Looped = False
+            GameVideo.Volume = 20
+            GameVideo.MediaURI = fileName1
 
 
 			'fileName1 = Form1.GetShortPathName(fileName1)
@@ -2355,9 +2351,9 @@ Card9:
 					' fileName1 = Form1.GetShortPathName(fileName1)
 				End If
 
-				GameWMP.settings.setMode("loop", False)
-				GameWMP.settings.volume = 20
-				GameWMP.URL = fileName1
+                GameVideo.Looped = False
+                GameVideo.Volume = 20
+                GameVideo.MediaURI = fileName1
 
 
 				'Dim Volume As Integer = 50
@@ -3744,9 +3740,9 @@ Card9:
 
 		My.Settings.Save()
 		If FrmSettings.CBGameSounds.Checked = True And File.Exists(Application.StartupPath & "\Audio\System\CardFlip.wav") Then
-			GameWMP.settings.setMode("loop", False)
-			GameWMP.settings.volume = 20
-			GameWMP.URL = Application.StartupPath & "\Audio\System\CardFlip.wav"
+            GameVideo.Looped = False
+            GameVideo.Volume = 20
+            GameVideo.MediaURI = Application.StartupPath & "\Audio\System\CardFlip.wav"
 		End If
 		'My.Computer.Audio.Play(Application.StartupPath & "\Audio\System\CardFlip.wav")
 
@@ -3832,9 +3828,9 @@ Card9:
 		SilverDraw.Clear()
 
 		If FrmSettings.CBGameSounds.Checked = True And File.Exists(Application.StartupPath & "\Audio\System\CardFlip.wav") Then
-			GameWMP.settings.setMode("loop", False)
-			GameWMP.settings.volume = 20
-			GameWMP.URL = Application.StartupPath & "\Audio\System\CardFlip.wav"
+            GameVideo.Looped = False
+            GameVideo.Volume = 20
+            GameVideo.MediaURI = Application.StartupPath & "\Audio\System\CardFlip.wav"
 		End If
 
 		ExchangeCard.Visible = True
@@ -3907,9 +3903,9 @@ Card9:
 		ClearExchange()
 
 		If FrmSettings.CBGameSounds.Checked = True And File.Exists(Application.StartupPath & "\Audio\System\PayoutSmall.wav") Then
-			GameWMP.settings.setMode("loop", False)
-			GameWMP.settings.volume = 20
-			GameWMP.URL = Application.StartupPath & "\Audio\System\PayoutSmall.wav"
+            GameVideo.Looped = False
+            GameVideo.Volume = 20
+            GameVideo.MediaURI = Application.StartupPath & "\Audio\System\PayoutSmall.wav"
 		End If
 
 		Form1.ssh.BronzeTokens += 12
@@ -3938,9 +3934,9 @@ Card9:
 		GoldDraw.Clear()
 
 		If FrmSettings.CBGameSounds.Checked = True And File.Exists(Application.StartupPath & "\Audio\System\CardFlip.wav") Then
-			GameWMP.settings.setMode("loop", False)
-			GameWMP.settings.volume = 20
-			GameWMP.URL = Application.StartupPath & "\Audio\System\CardFlip.wav"
+            GameVideo.Looped = False
+            GameVideo.Volume = 20
+            GameVideo.MediaURI = Application.StartupPath & "\Audio\System\CardFlip.wav"
 		End If
 
 		ExchangeCard.Visible = True
@@ -4013,9 +4009,9 @@ Card9:
 		ClearExchange()
 
 		If FrmSettings.CBGameSounds.Checked = True And File.Exists(Application.StartupPath & "\Audio\System\PayoutOne.wav") Then
-			GameWMP.settings.setMode("loop", False)
-			GameWMP.settings.volume = 20
-			GameWMP.URL = Application.StartupPath & "\Audio\System\PayoutOne.wav"
+            GameVideo.Looped = False
+            GameVideo.Volume = 20
+            GameVideo.MediaURI = Application.StartupPath & "\Audio\System\PayoutOne.wav"
 		End If
 
 		Form1.ssh.SilverTokens += 1
@@ -4043,9 +4039,9 @@ Card9:
 		ClearExchange()
 
 		If FrmSettings.CBGameSounds.Checked = True And File.Exists(Application.StartupPath & "\Audio\System\PayoutOne.wav") Then
-			GameWMP.settings.setMode("loop", False)
-			GameWMP.settings.volume = 20
-			GameWMP.URL = Application.StartupPath & "\Audio\System\PayoutOne.wav"
+            GameVideo.Looped = False
+            GameVideo.Volume = 20
+            GameVideo.MediaURI = Application.StartupPath & "\Audio\System\PayoutOne.wav"
 		End If
 
 		Form1.ssh.GoldTokens += 1
@@ -4065,9 +4061,9 @@ Card9:
 		ClearExchange()
 
 		If FrmSettings.CBGameSounds.Checked = True And File.Exists(Application.StartupPath & "\Audio\System\PayoutSmall.wav") Then
-			GameWMP.settings.setMode("loop", False)
-			GameWMP.settings.volume = 20
-			GameWMP.URL = Application.StartupPath & "\Audio\System\PayoutSmall.wav"
+            GameVideo.Looped = False
+            GameVideo.Volume = 20
+            GameVideo.MediaURI = Application.StartupPath & "\Audio\System\PayoutSmall.wav"
 		End If
 
 		Form1.ssh.SilverTokens -= 1
