@@ -550,6 +550,8 @@ System.ComponentModel.Description("Gets or Sets the Filepath to the Likelist.")>
 				Dim BlogCycle As Integer = 0
 				Dim BlogCycleSize As Integer = 50
 				Dim TotalPostCount As Integer = -1
+				Dim WebRetries As Integer = 0
+
 
 				Do
 					' >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Cancel <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -562,16 +564,31 @@ System.ComponentModel.Description("Gets or Sets the Filepath to the Likelist.")>
 					Dim doc As XmlDocument = New XmlDocument()
 					Dim ImageURLs As New List(Of String)
 
-					Dim ReadAPI As String = imageBlogUrl & "/api/read?start=" & BlogCycle & "&num=" & BlogCycleSize
+					Dim ReadAPI As String = imageBlogUrl & "/api/read?type=photo&filter=text&start=" & BlogCycle & "&num=" & BlogCycleSize
 					ReadAPI = ReadAPI.Replace("//api", "/api")
 
-					Request = WebRequest.Create(ReadAPI)
-					Response = Request.GetResponse()
+					Dim Reader As XmlTextReader
 
-					Dim Reader As New XmlTextReader(Response.GetResponseStream)
-					doc.Load(Reader)
-					Request.Abort()	' Otherwise you cant't run it a seccond time on the same URL that session!
-					Response.Close()
+					Try
+						Request = WebRequest.Create(ReadAPI)
+						Response = Request.GetResponse()
+
+						Reader = New XmlTextReader(Response.GetResponseStream)
+						doc.Load(Reader)
+					Catch ex As XmlException
+						BlogCycle += BlogCycleSize ' Just go to the next page
+						Continue Do
+					Catch ex As WebException
+						WebRetries += 1
+						If WebRetries > 17 Then Throw ' 17 retries = 5 minutes max wait
+						Threading.Thread.Sleep(2000 * WebRetries)
+						Continue Do
+					Finally
+						Request.Abort() ' Otherwise you cant't run it a seccond time on the same URL that session!
+						Response.Close()
+					End Try
+					If WebRetries > 0 Then WebRetries -= 1
+
 
 					' Get total post count on first run.
 					If TotalPostCount = -1 Then
@@ -779,72 +796,6 @@ RetryDeleteFile:
 				Throw
 			End Try
 		End Function
-
-		''' <summary>
-		''' Connects to a tumblr blog and reads all available image URLs.
-		''' </summary>
-		''' <param name="blogURL">The URL of the blog to search.</param>
-		''' <returns>Returns a list of all image URLs in given blog or NOTHING/NULL
-		''' when a cancelation is pending.</returns>
-		Private Function TumblrGetImageURLs(blogURL As String) As List(Of String)
-
-			Dim rtnList As New List(Of String)
-			Dim doc As XmlDocument = New XmlDocument()
-			Dim req As HttpWebRequest
-			Dim res As HttpWebResponse
-
-			Try
-
-				blogURL = blogURL.Replace("/", "")
-				blogURL = blogURL.Replace("http:", "http://")
-				Debug.Print("ImageBlogURL = " & blogURL)
-
-				Dim BlogCycle As Integer = 0
-				Dim BlogCycleSize As Integer = 50
-				Dim TotalPostCount As Integer = -1
-
-				Do
-					' >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Cancel <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-					If Me.CancellationPending Then Return Nothing
-
-					req = WebRequest.Create(blogURL & "/api/read?start=" & BlogCycle & "&num=" & BlogCycleSize)
-					res = req.GetResponse()
-
-					Dim Reader As New XmlTextReader(res.GetResponseStream)
-					doc.Load(Reader)
-					req.Abort() ' Otherwise you cant't run it a seccond time on the same URL that session!
-					res.Close()
-
-					' Get total post count on first run.
-					If TotalPostCount = -1 Then
-						For Each node As XmlNode In doc.DocumentElement.SelectNodes("//posts")
-							TotalPostCount = CInt(node.Attributes.ItemOf("total").InnerText)
-						Next
-					End If
-
-					' Read all image urls in given range.
-					For Each photoNode As XmlNode In doc.DocumentElement.SelectNodes("//photo-url")
-						If CInt(photoNode.Attributes.ItemOf("max-width").InnerText) = 1280 Then
-							If rtnList.Contains(photoNode.InnerXml) Then
-								Dim t = 0
-							End If
-							rtnList.Add(photoNode.InnerXml)
-						End If
-					Next
-
-					BlogCycle += BlogCycleSize
-				Loop Until BlogCycle >= TotalPostCount
-
-				Return rtnList
-
-			Catch ex As Exception
-				'▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-				'						       All Errors
-				'▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-				Throw
-			End Try
-		End Function
-
 
 		Shared Function ReadFileContent(path As String) As List(Of String)
 			Try
